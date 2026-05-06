@@ -33,6 +33,11 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/projects/:projectId/tasks', taskRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ status: 'active', message: 'Team Task Manager API is running' });
+});
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
@@ -46,6 +51,6 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
