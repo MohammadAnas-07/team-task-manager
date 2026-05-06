@@ -11,12 +11,21 @@ const dashboardRoutes = require('./routes/user.routes');
 const app = express();
 
 // CORS
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://team-task-manager-production-d387.up.railway.app"
+];
+
 app.use(cors({
-  origin: process.env.VITE_API_URL || ["http://localhost:5173",
-    "https://team-task-manager-production-d387.up.railway.app"],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
-
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
