@@ -6,6 +6,7 @@ const cookieOptions = {
   httpOnly: true,
   secure: true,        // ALWAYS true in production (Railway = HTTPS)
   sameSite: "none",    // REQUIRED for cross-origin
+  path: "/",
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
