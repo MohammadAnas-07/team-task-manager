@@ -2,10 +2,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const prisma = require('../lib/prisma');
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const cookieOptions = {
   httpOnly: true,
-  secure: true,        // ALWAYS true in production (Railway = HTTPS)
-  sameSite: "none",    // REQUIRED for cross-origin
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
   path: "/",
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
@@ -75,9 +77,8 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
   try {
     res.clearCookie('token', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      ...cookieOptions,
+      maxAge: 0,
     });
     res.json({ message: 'Logged out successfully' });
   } catch (err) {
