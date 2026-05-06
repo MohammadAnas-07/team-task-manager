@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const { data } = await api.get('/auth/me');
+        const { data } = await api.get('/api/auth/me');
         setUser(data.user);
       } catch (err) {
         setUser(null);
@@ -23,19 +23,19 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const { data } = await api.post('/auth/login', { email, password });
+    const { data } = await api.post('/api/auth/login', { email, password });
     setUser(data.user);
     return data.user;
   };
 
   const signup = async (name, email, password) => {
-    const { data } = await api.post('/auth/signup', { name, email, password });
+    const { data } = await api.post('/api/auth/signup', { name, email, password });
     setUser(data.user);
     return data.user;
   };
 
   const logout = async () => {
-    await api.post('/auth/logout');
+    await api.post('/api/auth/logout');
     setUser(null);
   };
 
