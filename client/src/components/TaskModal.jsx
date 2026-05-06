@@ -61,11 +61,11 @@ export default function TaskModal({ isOpen, onClose, onSuccess, projectId, membe
 
     try {
       if (isEditing) {
-        const { data } = await api.put(`/projects/${projectId}/tasks/${task.id}`, payload);
+        const { data } = await api.put(`/api/projects/${projectId}/tasks/${task.id}`, payload);
         toast.success('Task updated successfully');
         onSuccess(data.task, 'update');
       } else {
-        const { data } = await api.post(`/projects/${projectId}/tasks`, payload);
+        const { data } = await api.post(`/api/projects/${projectId}/tasks`, payload);
         toast.success('Task created successfully');
         onSuccess(data.task, 'create');
       }

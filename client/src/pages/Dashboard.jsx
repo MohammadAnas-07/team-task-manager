@@ -22,7 +22,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const { data } = await api.get('/dashboard');
+        const { data } = await api.get('/api/dashboard');
         setStats(data);
       } catch (err) {
         setError(err.response?.data?.error || 'Failed to load dashboard');

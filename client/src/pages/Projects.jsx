@@ -12,7 +12,7 @@ export default function Projects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const { data } = await api.get('/projects');
+        const { data } = await api.get('/api/projects');
         setProjects(data.projects);
       } catch (err) {
         setError(err.response?.data?.error || 'Failed to load projects');

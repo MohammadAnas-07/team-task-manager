@@ -17,7 +17,7 @@ export default function MemberList({ members, projectId, onMembersChange, isAdmi
     setAddError('');
     setAddLoading(true);
     try {
-      const { data } = await api.post(`/projects/${projectId}/members`, { email, role });
+      const { data } = await api.post(`/api/projects/${projectId}/members`, { email, role });
       toast.success('Member added successfully');
       onMembersChange([...members, data.member]);
       setEmail('');
@@ -35,7 +35,7 @@ export default function MemberList({ members, projectId, onMembersChange, isAdmi
     if (!window.confirm('Remove this member from the project?')) return;
     setRemovingId(userId);
     try {
-      await api.delete(`/projects/${projectId}/members/${userId}`);
+      await api.delete(`/api/projects/${projectId}/members/${userId}`);
       toast.success('Member removed');
       onMembersChange(members.filter((m) => m.user.id !== userId));
     } catch (err) {

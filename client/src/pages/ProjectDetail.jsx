@@ -59,7 +59,7 @@ export default function ProjectDetail() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const { data } = await api.get(`/projects/${id}`);
+        const { data } = await api.get(`/api/projects/${id}`);
         setProject(data.project);
         setEditName(data.project.name);
         setEditDescription(data.project.description || '');
@@ -79,7 +79,7 @@ export default function ProjectDetail() {
       try {
         const params = new URLSearchParams();
         if (statusFilter) params.append('status', statusFilter);
-        const { data } = await api.get(`/projects/${id}/tasks?${params}`);
+        const { data } = await api.get(`/api/projects/${id}/tasks?${params}`);
         setTasks(data.tasks);
       } catch (err) {
         toast.error('Failed to load tasks');
@@ -101,7 +101,7 @@ export default function ProjectDetail() {
   const handleDeleteTask = async (task) => {
     if (!window.confirm(`Delete task "${task.title}"?`)) return;
     try {
-      await api.delete(`/projects/${id}/tasks/${task.id}`);
+      await api.delete(`/api/projects/${id}/tasks/${task.id}`);
       setTasks((prev) => prev.filter((t) => t.id !== task.id));
       toast.success('Task deleted');
     } catch (err) {
@@ -118,7 +118,7 @@ export default function ProjectDetail() {
     e.preventDefault();
     setEditLoading(true);
     try {
-      const { data } = await api.put(`/projects/${id}`, {
+      const { data } = await api.put(`/api/projects/${id}`, {
         name: editName,
         description: editDescription,
       });
@@ -135,7 +135,7 @@ export default function ProjectDetail() {
   const handleDeleteProject = async () => {
     if (!window.confirm(`Delete project "${project.name}"? This will delete all tasks and members.`)) return;
     try {
-      await api.delete(`/projects/${id}`);
+      await api.delete(`/api/projects/${id}`);
       toast.success('Project deleted');
       navigate('/projects');
     } catch (err) {

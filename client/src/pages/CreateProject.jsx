@@ -15,7 +15,7 @@ export default function CreateProject() {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await api.post('/projects', { name, description });
+      const { data } = await api.post('/api/projects', { name, description });
       toast.success('Project created successfully!');
       navigate(`/projects/${data.project.id}`);
     } catch (err) {
