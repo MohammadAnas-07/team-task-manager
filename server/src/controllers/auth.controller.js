@@ -39,8 +39,12 @@ const signup = async (req, res) => {
 
     res.status(201).json({ user });
   } catch (err) {
-    console.error('Signup error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('SIGNUP ERROR:', {
+      message: err.message,
+      stack: err.stack,
+      body: { ...req.body, password: '***' } // Log everything but the password
+    });
+    res.status(500).json({ error: 'Internal server error', details: err.message });
   }
 };
 
@@ -69,8 +73,12 @@ const login = async (req, res) => {
     const { password: _, ...userWithoutPassword } = user;
     res.json({ user: userWithoutPassword });
   } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('LOGIN ERROR:', {
+      message: err.message,
+      stack: err.stack,
+      email: req.body.email
+    });
+    res.status(500).json({ error: 'Internal server error', details: err.message });
   }
 };
 
@@ -100,7 +108,10 @@ const me = async (req, res) => {
 
     res.json({ user });
   } catch (err) {
-    console.error('Me error:', err);
+    console.error('ME AUTH ERROR:', {
+      message: err.message,
+      userId: req.user?.userId
+    });
     res.status(500).json({ error: 'Internal server error' });
   }
 };
