@@ -41,9 +41,9 @@ A production-ready full-stack team collaboration and task management web applica
 
 ## Screenshots
 
-| Dashboard | Project Detail | Task Modal |
+| Dashboard | Create Project | Task Modal |
 |-----------|---------------|------------|
-| *(screenshot)* | *(screenshot)* | *(screenshot)* |
+| ![Dashboard](./screenshots/dashboard.png) | ![Create Project](./screenshots/create_project.png) | ![Task Modal](./screenshots/task_modal.png) |
 
 ---
 
