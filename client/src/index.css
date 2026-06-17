@@ -8,49 +8,63 @@
     }
 
     body {
-        @apply bg-slate-950 text-slate-100 font-sans antialiased;
+        @apply bg-apple-surface-black text-apple-on-dark font-sans antialiased;
     }
 
+    /* Minimalist scrollbar */
     ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
     }
 
     ::-webkit-scrollbar-track {
-        @apply bg-slate-900;
+        @apply bg-transparent;
     }
 
     ::-webkit-scrollbar-thumb {
-        @apply bg-slate-700 rounded-full;
+        @apply bg-apple-ink-muted-80 rounded-full border-2 border-solid border-transparent bg-clip-padding;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        @apply bg-slate-600;
+        @apply bg-apple-ink-muted-48;
     }
 }
 
 @layer components {
     .btn-primary {
-        @apply inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed;
+        @apply inline-flex items-center justify-center gap-2 px-[22px] py-[11px] bg-apple-primary text-apple-on-primary text-[17px] font-normal rounded-pill transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-apple-primary-focus focus:ring-offset-2 focus:ring-offset-apple-surface-black active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
     }
 
     .btn-secondary {
-        @apply inline-flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium rounded-lg border border-slate-700 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed;
+        @apply inline-flex items-center justify-center gap-2 px-[22px] py-[11px] bg-transparent text-apple-primary text-[17px] font-normal rounded-pill border border-apple-primary transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-apple-primary-focus focus:ring-offset-2 focus:ring-offset-apple-surface-black active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
     }
 
     .btn-danger {
-        @apply inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed;
+        @apply inline-flex items-center justify-center gap-2 px-[22px] py-[11px] bg-red-500 text-white text-[17px] font-normal rounded-pill transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-apple-surface-black active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+    }
+    
+    .btn-icon {
+        @apply inline-flex items-center justify-center w-[44px] h-[44px] rounded-full bg-apple-surface-chip-translucent text-apple-on-dark transition-transform duration-200 hover:bg-apple-surface-tile-2 active:scale-95;
     }
 
     .input-field {
-        @apply w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-150;
+        @apply w-full px-5 py-3 bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-pill text-apple-on-dark placeholder-apple-body-muted text-[17px] focus:outline-none focus:ring-2 focus:ring-apple-primary-focus focus:border-transparent transition-all duration-200;
     }
 
     .card {
-        @apply bg-slate-900 border border-slate-800 rounded-xl p-6;
+        @apply bg-apple-surface-tile-1 rounded-none lg:rounded-[18px] p-6 text-apple-on-dark transition-all duration-300;
     }
 
     .label {
-        @apply block text-sm font-medium text-slate-300 mb-1.5;
+        @apply block text-[14px] font-semibold text-apple-body-muted mb-1.5;
+    }
+    
+    /* Apple utilities */
+    .glass-panel {
+        @apply bg-apple-canvas-parchment/80 backdrop-blur-[20px] text-apple-ink border-b border-apple-hairline;
+    }
+    
+    .glass-panel-dark {
+        @apply bg-apple-surface-tile-1/80 backdrop-blur-[20px] text-apple-on-dark border-b border-apple-surface-tile-2;
     }
 }

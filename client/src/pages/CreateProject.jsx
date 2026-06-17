@@ -4,6 +4,7 @@ import { FolderPlus, ArrowLeft } from 'lucide-react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { motion } from 'framer-motion';
 
 export default function CreateProject() {
   const [name, setName] = useState('');
@@ -27,28 +28,33 @@ export default function CreateProject() {
   };
 
   return (
-    <div className="max-w-xl mx-auto">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="max-w-[560px] mx-auto pt-6 pb-12"
+    >
       {/* Back button */}
       <button
         onClick={() => navigate('/projects')}
-        className="flex items-center gap-2 text-slate-400 hover:text-white text-sm mb-6 transition-colors"
+        className="flex items-center gap-2 text-apple-body-muted hover:text-apple-on-dark text-[14px] mb-8 transition-colors tracking-[-0.224px] font-medium"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to projects
       </button>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center">
-            <FolderPlus className="w-5 h-5 text-blue-400" />
+      <div className="bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[24px] p-8 shadow-product">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="w-12 h-12 rounded-[11px] bg-apple-primary/10 flex items-center justify-center border border-apple-primary/20">
+            <FolderPlus className="w-6 h-6 text-apple-primary" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white">Create New Project</h1>
-            <p className="text-slate-400 text-sm">You'll be the admin</p>
+            <h1 className="text-[24px] font-semibold text-apple-on-dark tracking-tight">Create New Project</h1>
+            <p className="text-[14px] text-apple-body-muted mt-1 tracking-[-0.224px]">You'll be the administrator</p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5" id="create-project-form">
+        <form onSubmit={handleSubmit} className="space-y-6" id="create-project-form">
           <div>
             <label htmlFor="project-name" className="label">Project Name *</label>
             <input
@@ -57,7 +63,7 @@ export default function CreateProject() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g., Website Redesign"
-              className="input-field"
+              className="input-field text-[17px] font-semibold"
               required
               minLength={2}
               maxLength={100}
@@ -76,10 +82,10 @@ export default function CreateProject() {
               className="input-field resize-none"
               maxLength={500}
             />
-            <p className="text-xs text-slate-600 mt-1">{description.length}/500</p>
+            <p className="text-[12px] text-apple-ink-muted-48 mt-2 tracking-[-0.12px] text-right">{description.length}/500</p>
           </div>
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-4 pt-4 border-t border-apple-surface-tile-2">
             <button
               type="button"
               onClick={() => navigate('/projects')}
@@ -98,6 +104,6 @@ export default function CreateProject() {
           </div>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 }

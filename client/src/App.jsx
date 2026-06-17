@@ -10,6 +10,7 @@ import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import CreateProject from './pages/CreateProject';
 import NotFound from './pages/NotFound';
+import MyTasks from './pages/MyTasks';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Dashboard />,
+      },
+      {
+        path: 'my-tasks',
+        element: <MyTasks />,
       },
       {
         path: 'projects',

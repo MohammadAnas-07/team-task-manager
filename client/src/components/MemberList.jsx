@@ -3,6 +3,7 @@ import { UserPlus, Trash2, Crown, User } from 'lucide-react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/useAuth';
+import { motion } from 'framer-motion';
 
 export default function MemberList({ members, projectId, onMembersChange, isAdmin }) {
   const { user } = useAuth();
@@ -47,30 +48,31 @@ export default function MemberList({ members, projectId, onMembersChange, isAdmi
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Member list */}
       <div className="space-y-2">
         {members.map((member) => (
-          <div
+          <motion.div
+            layout
             key={member.id || member.user.id}
-            className="flex items-center justify-between gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50"
+            className="flex items-center justify-between gap-3 p-3 bg-apple-surface-tile-1 rounded-[11px] border border-apple-surface-tile-2 hover:border-apple-surface-tile-3 transition-colors duration-200"
           >
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-blue-700 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">
+              <div className="w-10 h-10 rounded-full bg-apple-surface-tile-3 flex items-center justify-center text-[14px] font-semibold text-apple-on-dark flex-shrink-0 border border-apple-surface-tile-2">
                 {member.user.name.charAt(0).toUpperCase()}
               </div>
               <div>
-                <p className="text-sm font-medium text-white">{member.user.name}</p>
-                <p className="text-xs text-slate-500">{member.user.email}</p>
+                <p className="text-[17px] font-semibold text-apple-on-dark leading-snug tracking-[-0.374px]">{member.user.name}</p>
+                <p className="text-[14px] text-apple-body-muted tracking-[-0.224px]">{member.user.email}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+              <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-[8px] text-[12px] font-medium leading-none ${
                 member.role === 'ADMIN'
-                  ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
-                  : 'bg-slate-700/50 text-slate-400 border border-slate-600'
+                  ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                  : 'bg-apple-surface-tile-2 text-apple-body-muted border border-transparent'
               }`}>
-                {member.role === 'ADMIN' ? <Crown className="w-3 h-3" /> : <User className="w-3 h-3" />}
+                {member.role === 'ADMIN' ? <Crown className="w-3.5 h-3.5" /> : <User className="w-3.5 h-3.5" />}
                 {member.role}
               </span>
               {isAdmin && member.user.id !== user?.id && (
@@ -78,26 +80,26 @@ export default function MemberList({ members, projectId, onMembersChange, isAdmi
                   id={`remove-member-${member.user.id}`}
                   onClick={() => handleRemoveMember(member.user.id)}
                   disabled={removingId === member.user.id}
-                  className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-950/30 rounded transition-colors disabled:opacity-50"
+                  className="p-2 text-apple-body-muted hover:text-red-400 hover:bg-red-500/10 rounded-[8px] transition-colors disabled:opacity-50"
                   aria-label={`Remove ${member.user.name}`}
                 >
-                  <Trash2 className="w-3.5 h-3.5" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               )}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
       {/* Add member form */}
       {isAdmin && (
-        <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-4">
-          <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-            <UserPlus className="w-4 h-4 text-blue-400" />
+        <div className="bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[18px] p-5">
+          <h4 className="text-[17px] font-semibold text-apple-on-dark mb-4 flex items-center gap-2 tracking-[-0.374px]">
+            <UserPlus className="w-5 h-5 text-apple-primary" />
             Add Member
           </h4>
-          <form onSubmit={handleAddMember} className="space-y-3" id="add-member-form">
-            <div className="flex gap-2">
+          <form onSubmit={handleAddMember} className="space-y-4" id="add-member-form">
+            <div className="flex gap-3">
               <input
                 id="add-member-email"
                 type="email"
@@ -118,16 +120,16 @@ export default function MemberList({ members, projectId, onMembersChange, isAdmi
               </select>
             </div>
             {addError && (
-              <p className="text-xs text-red-400">{addError}</p>
+              <p className="text-[14px] text-red-400 tracking-[-0.224px]">{addError}</p>
             )}
             <button
               id="add-member-submit"
               type="submit"
               disabled={addLoading}
-              className="btn-primary"
+              className="btn-primary w-full sm:w-auto"
             >
               {addLoading ? (
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-4 h-4 border-[3px] border-apple-on-primary/30 border-t-apple-on-primary rounded-full animate-spin" />
               ) : (
                 <>
                   <UserPlus className="w-4 h-4" />

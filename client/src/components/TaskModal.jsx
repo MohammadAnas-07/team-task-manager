@@ -3,6 +3,7 @@ import { X, Calendar, User, Flag, FileText, Tag } from 'lucide-react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
 import LoadingSpinner from './LoadingSpinner';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function TaskModal({ isOpen, onClose, onSuccess, projectId, members, task }) {
   const isEditing = !!task;
@@ -39,8 +40,6 @@ export default function TaskModal({ isOpen, onClose, onSuccess, projectId, membe
       });
     }
   }, [task, isOpen]);
-
-  if (!isOpen) return null;
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -79,158 +78,172 @@ export default function TaskModal({ isOpen, onClose, onSuccess, projectId, membe
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-        onClick={onClose}
-      />
-
-      {/* Modal */}
-      <div className="relative w-full max-w-lg bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
-          <h2 className="text-lg font-semibold text-white">
-            {isEditing ? 'Edit Task' : 'Create New Task'}
-          </h2>
-          <button
-            id="task-modal-close"
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-apple-surface-black/60 backdrop-blur-sm"
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
-            aria-label="Close modal"
+          />
+
+          {/* Modal */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="relative w-full max-w-lg bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[24px] shadow-product max-h-[90vh] flex flex-col overflow-hidden"
           >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4" id="task-form">
-          {/* Title */}
-          <div>
-            <label htmlFor="task-title" className="label">
-              <span className="flex items-center gap-1.5"><Tag className="w-3.5 h-3.5" /> Title *</span>
-            </label>
-            <input
-              id="task-title"
-              name="title"
-              type="text"
-              value={formData.title}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="What needs to be done?"
-              required
-            />
-          </div>
-
-          {/* Description */}
-          <div>
-            <label htmlFor="task-description" className="label">
-              <span className="flex items-center gap-1.5"><FileText className="w-3.5 h-3.5" /> Description</span>
-            </label>
-            <textarea
-              id="task-description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={3}
-              className="input-field resize-none"
-              placeholder="Add more details..."
-            />
-          </div>
-
-          {/* Priority + Status grid */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="task-priority" className="label">
-                <span className="flex items-center gap-1.5"><Flag className="w-3.5 h-3.5" /> Priority</span>
-              </label>
-              <select
-                id="task-priority"
-                name="priority"
-                value={formData.priority}
-                onChange={handleChange}
-                className="input-field"
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-5 border-b border-apple-surface-tile-2 shrink-0">
+              <h2 className="text-[21px] font-semibold text-apple-on-dark tracking-[-0.374px]">
+                {isEditing ? 'Edit Task' : 'New Task'}
+              </h2>
+              <button
+                id="task-modal-close"
+                onClick={onClose}
+                className="btn-icon"
+                aria-label="Close modal"
               >
-                <option value="LOW">Low</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="HIGH">High</option>
-              </select>
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            {isEditing && (
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="p-6 space-y-5 overflow-y-auto" id="task-form">
+              {/* Title */}
               <div>
-                <label htmlFor="task-status" className="label">Status</label>
-                <select
-                  id="task-status"
-                  name="status"
-                  value={formData.status}
+                <label htmlFor="task-title" className="label">
+                  <span className="flex items-center gap-1.5"><Tag className="w-4 h-4" /> Title *</span>
+                </label>
+                <input
+                  id="task-title"
+                  name="title"
+                  type="text"
+                  value={formData.title}
                   onChange={handleChange}
-                  className="input-field"
-                >
-                  <option value="TODO">To Do</option>
-                  <option value="IN_PROGRESS">In Progress</option>
-                  <option value="DONE">Done</option>
-                </select>
+                  className="input-field text-[17px] font-semibold"
+                  placeholder="Task name"
+                  required
+                />
               </div>
-            )}
-          </div>
 
-          {/* Assignee */}
-          <div>
-            <label htmlFor="task-assignee" className="label">
-              <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" /> Assignee</span>
-            </label>
-            <select
-              id="task-assignee"
-              name="assigneeId"
-              value={formData.assigneeId}
-              onChange={handleChange}
-              className="input-field"
-            >
-              <option value="">Unassigned</option>
-              {members.map((member) => (
-                <option key={member.user.id} value={member.user.id}>
-                  {member.user.name} ({member.user.email})
-                </option>
-              ))}
-            </select>
-          </div>
+              {/* Description */}
+              <div>
+                <label htmlFor="task-description" className="label">
+                  <span className="flex items-center gap-1.5"><FileText className="w-4 h-4" /> Description</span>
+                </label>
+                <textarea
+                  id="task-description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  rows={4}
+                  className="input-field resize-none"
+                  placeholder="Add details, links, or context..."
+                />
+              </div>
 
-          {/* Due Date */}
-          <div>
-            <label htmlFor="task-due-date" className="label">
-              <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> Due Date</span>
-            </label>
-            <input
-              id="task-due-date"
-              name="dueDate"
-              type="date"
-              value={formData.dueDate}
-              onChange={handleChange}
-              className="input-field"
-            />
-          </div>
+              {/* Priority + Status grid */}
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label htmlFor="task-priority" className="label">
+                    <span className="flex items-center gap-1.5"><Flag className="w-4 h-4" /> Priority</span>
+                  </label>
+                  <select
+                    id="task-priority"
+                    name="priority"
+                    value={formData.priority}
+                    onChange={handleChange}
+                    className="input-field appearance-none bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23cccccc%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[position:right_16px_center] bg-[size:16px]"
+                  >
+                    <option value="LOW">Low Priority</option>
+                    <option value="MEDIUM">Medium Priority</option>
+                    <option value="HIGH">High Priority</option>
+                  </select>
+                </div>
 
-          {/* Actions */}
-          <div className="flex gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn-secondary flex-1 justify-center"
-            >
-              Cancel
-            </button>
-            <button
-              id="task-form-submit"
-              type="submit"
-              disabled={loading}
-              className="btn-primary flex-1 justify-center"
-            >
-              {loading ? <LoadingSpinner size="sm" /> : isEditing ? 'Update Task' : 'Create Task'}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+                {isEditing && (
+                  <div>
+                    <label htmlFor="task-status" className="label">Status</label>
+                    <select
+                      id="task-status"
+                      name="status"
+                      value={formData.status}
+                      onChange={handleChange}
+                      className="input-field appearance-none bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23cccccc%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[position:right_16px_center] bg-[size:16px]"
+                    >
+                      <option value="TODO">To Do</option>
+                      <option value="IN_PROGRESS">In Progress</option>
+                      <option value="DONE">Done</option>
+                    </select>
+                  </div>
+                )}
+              </div>
+
+              {/* Assignee & Due Date Grid */}
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label htmlFor="task-assignee" className="label">
+                    <span className="flex items-center gap-1.5"><User className="w-4 h-4" /> Assignee</span>
+                  </label>
+                  <select
+                    id="task-assignee"
+                    name="assigneeId"
+                    value={formData.assigneeId}
+                    onChange={handleChange}
+                    className="input-field appearance-none bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23cccccc%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[position:right_16px_center] bg-[size:16px]"
+                  >
+                    <option value="">Unassigned</option>
+                    {members.map((member) => (
+                      <option key={member.user.id} value={member.user.id}>
+                        {member.user.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="task-due-date" className="label">
+                    <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> Due Date</span>
+                  </label>
+                  <input
+                    id="task-due-date"
+                    name="dueDate"
+                    type="date"
+                    value={formData.dueDate}
+                    onChange={handleChange}
+                    className="input-field [color-scheme:dark]"
+                  />
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-4 pt-6 mt-6 border-t border-apple-surface-tile-2">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="btn-secondary flex-1 justify-center"
+                >
+                  Cancel
+                </button>
+                <button
+                  id="task-form-submit"
+                  type="submit"
+                  disabled={loading}
+                  className="btn-primary flex-1 justify-center"
+                >
+                  {loading ? <LoadingSpinner size="sm" /> : isEditing ? 'Save Changes' : 'Create Task'}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -7,17 +7,21 @@ import {
   FolderOpen,
   AlertCircle,
   Calendar,
+  Layers
 } from 'lucide-react';
 import api from '../api/axios';
 import StatsCard from '../components/StatsCard';
 import StatusBadge from '../components/StatusBadge';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import { motion } from 'framer-motion';
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -35,7 +39,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-24">
+      <div className="flex items-center justify-center min-h-[60vh]">
         <LoadingSpinner size="lg" />
       </div>
     );
@@ -43,17 +47,32 @@ export default function Dashboard() {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 gap-3">
-        <AlertCircle className="w-10 h-10 text-red-400" />
-        <p className="text-red-400 font-medium">{error}</p>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
+        <AlertCircle className="w-12 h-12 text-red-400" />
+        <p className="text-red-400 font-semibold text-[17px] tracking-[-0.374px]">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="max-w-[1068px] mx-auto space-y-8 pb-12"
+    >
+      {/* Welcome Header */}
+      <div className="mb-10 mt-4">
+        <h1 className="text-[40px] font-semibold text-apple-on-dark leading-tight tracking-tight">
+          Welcome back, {user?.name?.split(' ')[0]}
+        </h1>
+        <p className="text-[21px] text-apple-body-muted mt-2 tracking-[0.231px]">
+          Here is what's happening across your projects today.
+        </p>
+      </div>
+
       {/* Stats grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <StatsCard
           title="Total Tasks"
           value={stats.totalTasks}
@@ -78,77 +97,83 @@ export default function Dashboard() {
           value={stats.doneCount}
           icon={CheckCircle2}
           color="green"
-          subtitle={`${stats.projectCount} projects`}
+          subtitle={`${stats.projectCount} active projects`}
         />
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-6 pt-4">
         {/* Overdue Tasks */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <AlertCircle className="w-4 h-4 text-red-400" />
-            <h3 className="font-semibold text-white">Overdue Tasks</h3>
+        <div className="bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[24px] p-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-[11px] bg-red-500/10 flex items-center justify-center">
+              <AlertCircle className="w-5 h-5 text-red-400" />
+            </div>
+            <h3 className="text-[21px] font-semibold text-apple-on-dark tracking-[-0.374px]">Overdue</h3>
             {stats.overdueTasks.length > 0 && (
-              <span className="ml-auto px-2 py-0.5 rounded-full text-xs bg-red-500/15 text-red-400 border border-red-500/30">
+              <span className="ml-auto px-3 py-1 rounded-[8px] text-[14px] font-medium bg-red-500/10 text-red-400 border border-red-500/20">
                 {stats.overdueTasks.length}
               </span>
             )}
           </div>
 
           {stats.overdueTasks.length === 0 ? (
-            <div className="text-center py-8">
-              <CheckCircle2 className="w-8 h-8 text-green-400 mx-auto mb-2" />
-              <p className="text-slate-500 text-sm">No overdue tasks! 🎉</p>
+            <div className="text-center py-12">
+              <CheckCircle2 className="w-12 h-12 text-apple-primary mx-auto mb-4 opacity-50" />
+              <p className="text-apple-body-muted text-[17px] tracking-[-0.374px]">No overdue tasks. Great job!</p>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-3">
               {stats.overdueTasks.map((task) => (
-                <div
+                <motion.div
+                  whileHover={{ x: 4 }}
                   key={task.id}
-                  className="flex items-start justify-between gap-3 p-3 bg-red-950/20 border border-red-900/30 rounded-lg"
+                  className="flex items-center justify-between gap-4 p-4 bg-apple-surface-tile-2 rounded-[14px] border border-apple-surface-tile-3"
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-red-300 truncate">{task.title}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">{task.project?.name}</p>
+                    <p className="text-[17px] font-semibold text-apple-on-dark truncate tracking-[-0.374px]">{task.title}</p>
+                    <p className="text-[14px] text-apple-body-muted mt-1 tracking-[-0.224px]">{task.project?.name}</p>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-red-400 flex-shrink-0">
-                    <Calendar className="w-3 h-3" />
+                  <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-[8px] bg-red-500/10 text-[12px] font-medium text-red-400 flex-shrink-0 border border-red-500/20">
+                    <Calendar className="w-3.5 h-3.5" />
                     {new Date(task.dueDate).toLocaleDateString()}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
         </div>
 
         {/* Recent Tasks */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <Clock className="w-4 h-4 text-blue-400" />
-            <h3 className="font-semibold text-white">Recent Tasks</h3>
+        <div className="bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[24px] p-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-[11px] bg-apple-primary/10 flex items-center justify-center">
+              <Clock className="w-5 h-5 text-apple-primary" />
+            </div>
+            <h3 className="text-[21px] font-semibold text-apple-on-dark tracking-[-0.374px]">Recent Activity</h3>
           </div>
 
           {stats.recentTasks.length === 0 ? (
-            <div className="text-center py-8">
-              <ListTodo className="w-8 h-8 text-slate-600 mx-auto mb-2" />
-              <p className="text-slate-500 text-sm">No tasks assigned yet</p>
-              <Link to="/projects" className="text-blue-400 hover:text-blue-300 text-sm mt-1 inline-block">
-                Browse projects →
+            <div className="text-center py-12">
+              <Layers className="w-12 h-12 text-apple-ink-muted-48 mx-auto mb-4" />
+              <p className="text-apple-body-muted text-[17px] tracking-[-0.374px] mb-4">No recent tasks found</p>
+              <Link to="/projects" className="btn-secondary">
+                Browse projects
               </Link>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-3">
               {stats.recentTasks.map((task) => (
-                <div
+                <motion.div
+                  whileHover={{ x: 4 }}
                   key={task.id}
-                  className="flex items-center justify-between gap-3 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition-colors"
+                  className="flex items-center justify-between gap-4 p-4 bg-apple-surface-tile-2 rounded-[14px] border border-transparent hover:border-apple-surface-tile-3"
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-white truncate">{task.title}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">{task.project?.name}</p>
+                    <p className="text-[17px] font-semibold text-apple-on-dark truncate tracking-[-0.374px]">{task.title}</p>
+                    <p className="text-[14px] text-apple-body-muted mt-1 tracking-[-0.224px]">{task.project?.name}</p>
                   </div>
                   <StatusBadge type="status" value={task.status} />
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
@@ -157,15 +182,20 @@ export default function Dashboard() {
 
       {/* Projects quick link */}
       {stats.projectCount === 0 && (
-        <div className="bg-slate-900 border border-dashed border-slate-700 rounded-xl p-8 text-center">
-          <FolderOpen className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-          <h3 className="text-white font-medium mb-1">No projects yet</h3>
-          <p className="text-slate-400 text-sm mb-4">Create your first project to get started</p>
-          <Link to="/projects/new" className="btn-primary inline-flex">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-apple-surface-tile-1 border border-dashed border-apple-surface-tile-3 rounded-[24px] p-12 text-center"
+        >
+          <FolderOpen className="w-12 h-12 text-apple-primary mx-auto mb-4" />
+          <h3 className="text-[21px] text-apple-on-dark font-semibold tracking-[-0.374px] mb-2">No projects yet</h3>
+          <p className="text-[17px] text-apple-body-muted mb-8 tracking-[-0.374px]">Create your first project to organize tasks and team members.</p>
+          <Link to="/projects/new" className="btn-primary">
             Create a project
           </Link>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

@@ -84,4 +84,29 @@ const getDashboard = async (req, res) => {
   }
 };
 
-module.exports = { getDashboard };
+const getMyTasks = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { status } = req.query;
+
+    const where = { assigneeId: userId };
+    if (status) where.status = status;
+
+    const tasks = await prisma.task.findMany({
+      where,
+      include: {
+        project: { select: { id: true, name: true } },
+        creator: { select: { id: true, name: true, email: true } },
+        assignee: { select: { id: true, name: true, email: true } },
+      },
+      orderBy: { updatedAt: 'desc' },
+    });
+
+    res.json({ tasks });
+  } catch (err) {
+    console.error('Get my tasks error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+module.exports = { getDashboard, getMyTasks };

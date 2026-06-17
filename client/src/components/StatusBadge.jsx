@@ -1,33 +1,44 @@
+import { CheckCircle2, Circle, AlertCircle, ArrowUpCircle, ArrowRightCircle, ArrowDownCircle } from 'lucide-react';
+
 const STATUS_CONFIG = {
   TODO: {
     label: 'To Do',
-    classes: 'bg-slate-700/50 text-slate-300 border border-slate-600',
+    classes: 'bg-apple-surface-tile-2 text-apple-on-dark border border-apple-surface-tile-3',
+    icon: Circle,
+    iconColor: 'text-apple-body-muted'
   },
   IN_PROGRESS: {
     label: 'In Progress',
-    classes: 'bg-amber-500/15 text-amber-400 border border-amber-500/30',
+    classes: 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
+    icon: ArrowRightCircle,
+    iconColor: 'text-amber-400'
   },
   DONE: {
     label: 'Done',
-    classes: 'bg-green-500/15 text-green-400 border border-green-500/30',
+    classes: 'bg-apple-primary/10 text-apple-primary border border-apple-primary/20',
+    icon: CheckCircle2,
+    iconColor: 'text-apple-primary'
   },
 };
 
 const PRIORITY_CONFIG = {
   LOW: {
     label: 'Low',
-    classes: 'bg-blue-500/15 text-blue-400 border border-blue-500/30',
-    dot: 'bg-blue-400',
+    classes: 'bg-apple-surface-tile-2 text-apple-body-muted border border-transparent',
+    icon: ArrowDownCircle,
+    iconColor: 'text-apple-body-muted',
   },
   MEDIUM: {
     label: 'Medium',
-    classes: 'bg-amber-500/15 text-amber-400 border border-amber-500/30',
-    dot: 'bg-amber-400',
+    classes: 'bg-apple-surface-tile-2 text-apple-on-dark border border-transparent',
+    icon: ArrowRightCircle,
+    iconColor: 'text-apple-on-dark',
   },
   HIGH: {
     label: 'High',
-    classes: 'bg-red-500/15 text-red-400 border border-red-500/30',
-    dot: 'bg-red-400',
+    classes: 'bg-red-500/10 text-red-400 border border-red-500/20',
+    icon: ArrowUpCircle,
+    iconColor: 'text-red-400',
   },
 };
 
@@ -35,12 +46,11 @@ export default function StatusBadge({ type = 'status', value }) {
   const config = type === 'status' ? STATUS_CONFIG[value] : PRIORITY_CONFIG[value];
 
   if (!config) return null;
+  const Icon = config.icon;
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium ${config.classes}`}>
-      {type === 'priority' && (
-        <span className={`w-1.5 h-1.5 rounded-full ${config.dot}`} />
-      )}
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[11px] text-[12px] font-medium leading-none ${config.classes}`}>
+      {Icon && <Icon className={`w-3.5 h-3.5 ${config.iconColor}`} />}
       {config.label}
     </span>
   );
