@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 
 export default function AppLayout() {
   return (
-    <div className="flex h-screen bg-apple-surface-black text-apple-on-dark font-sans overflow-hidden">
+    <div className="flex h-screen bg-theme-bg text-theme-text font-sans overflow-hidden">
       <Sidebar />
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden relative">
         <Navbar />

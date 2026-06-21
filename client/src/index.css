@@ -8,7 +8,7 @@
     }
 
     body {
-        @apply bg-apple-surface-black text-apple-on-dark font-sans antialiased;
+        @apply bg-theme-bg text-theme-text font-sans antialiased;
     }
 
     /* Minimalist scrollbar */
@@ -22,49 +22,45 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        @apply bg-apple-ink-muted-80 rounded-full border-2 border-solid border-transparent bg-clip-padding;
+        @apply bg-gray-300 rounded-full border-2 border-solid border-transparent bg-clip-padding;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        @apply bg-apple-ink-muted-48;
+        @apply bg-gray-400;
     }
 }
 
 @layer components {
     .btn-primary {
-        @apply inline-flex items-center justify-center gap-2 px-[22px] py-[11px] bg-apple-primary text-apple-on-primary text-[17px] font-normal rounded-pill transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-apple-primary-focus focus:ring-offset-2 focus:ring-offset-apple-surface-black active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+        @apply inline-flex items-center justify-center gap-2 px-[22px] py-[11px] bg-theme-primary text-theme-primary-text text-[17px] font-normal rounded-pill transition-transform duration-200 hover:bg-theme-primary-hover focus:outline-none focus:ring-2 focus:ring-theme-primary focus:ring-offset-2 focus:ring-offset-theme-bg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
     }
 
     .btn-secondary {
-        @apply inline-flex items-center justify-center gap-2 px-[22px] py-[11px] bg-transparent text-apple-primary text-[17px] font-normal rounded-pill border border-apple-primary transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-apple-primary-focus focus:ring-offset-2 focus:ring-offset-apple-surface-black active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+        @apply inline-flex items-center justify-center gap-2 px-[22px] py-[11px] bg-white text-theme-text text-[17px] font-normal rounded-pill border border-theme-border transition-all duration-200 hover:border-theme-border-hover hover:bg-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme-primary focus:ring-offset-2 focus:ring-offset-theme-bg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
     }
 
     .btn-danger {
-        @apply inline-flex items-center justify-center gap-2 px-[22px] py-[11px] bg-red-500 text-white text-[17px] font-normal rounded-pill transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-apple-surface-black active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+        @apply inline-flex items-center justify-center gap-2 px-[22px] py-[11px] bg-theme-danger text-white text-[17px] font-normal rounded-pill transition-transform duration-200 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-theme-danger focus:ring-offset-2 focus:ring-offset-theme-bg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
     }
     
     .btn-icon {
-        @apply inline-flex items-center justify-center w-[44px] h-[44px] rounded-full bg-apple-surface-chip-translucent text-apple-on-dark transition-transform duration-200 hover:bg-apple-surface-tile-2 active:scale-95;
+        @apply inline-flex items-center justify-center w-[44px] h-[44px] rounded-full bg-theme-secondary text-theme-text transition-transform duration-200 hover:bg-theme-border hover:text-theme-primary active:scale-95;
     }
 
     .input-field {
-        @apply w-full px-5 py-3 bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-pill text-apple-on-dark placeholder-apple-body-muted text-[17px] focus:outline-none focus:ring-2 focus:ring-apple-primary-focus focus:border-transparent transition-all duration-200;
+        @apply w-full px-5 py-3 bg-white border border-theme-border rounded-pill text-theme-text placeholder-theme-text-secondary text-[17px] focus:outline-none focus:ring-2 focus:ring-theme-border-focus focus:border-transparent transition-all duration-200;
     }
 
     .card {
-        @apply bg-apple-surface-tile-1 rounded-none lg:rounded-[18px] p-6 text-apple-on-dark transition-all duration-300;
+        @apply bg-white rounded-none lg:rounded-[18px] p-6 text-theme-text border border-theme-border shadow-product transition-all duration-300;
     }
 
     .label {
-        @apply block text-[14px] font-semibold text-apple-body-muted mb-1.5;
+        @apply block text-[14px] font-semibold text-theme-text-secondary mb-1.5;
     }
     
-    /* Apple utilities */
+    /* Theme utilities */
     .glass-panel {
-        @apply bg-apple-canvas-parchment/80 backdrop-blur-[20px] text-apple-ink border-b border-apple-hairline;
-    }
-    
-    .glass-panel-dark {
-        @apply bg-apple-surface-tile-1/80 backdrop-blur-[20px] text-apple-on-dark border-b border-apple-surface-tile-2;
+        @apply bg-white/80 backdrop-blur-[20px] text-theme-text border-b border-theme-border;
     }
 }

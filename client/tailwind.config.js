@@ -7,28 +7,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        apple: {
-          primary: "#0066cc",
-          "primary-focus": "#0071e3",
-          "primary-on-dark": "#2997ff",
-          ink: "#1d1d1f",
-          body: "#1d1d1f",
-          "body-on-dark": "#ffffff",
-          "body-muted": "#cccccc",
-          "ink-muted-80": "#333333",
-          "ink-muted-48": "#7a7a7a",
-          "divider-soft": "#f0f0f0",
-          hairline: "#e0e0e0",
-          canvas: "#ffffff",
-          "canvas-parchment": "#f5f5f7",
-          "surface-pearl": "#fafafc",
-          "surface-tile-1": "#272729",
-          "surface-tile-2": "#2a2a2c",
-          "surface-tile-3": "#252527",
-          "surface-black": "#000000",
-          "surface-chip-translucent": "rgba(210, 210, 215, 0.64)",
-          "on-primary": "#ffffff",
-          "on-dark": "#ffffff",
+        theme: {
+          bg: "#ffffff",
+          secondary: "#f8f9fa",
+          tertiary: "#f1f5f9",
+          text: "#111111",
+          "text-secondary": "#6b7280",
+          border: "#e5e7eb",
+          "border-hover": "#d1d5db",
+          "border-focus": "#111111",
+          primary: "#111111",
+          "primary-hover": "#000000",
+          "primary-active": "#222222",
+          "primary-text": "#ffffff",
+          danger: "#ef4444",
+          success: "#22c55e",
         }
       },
       fontFamily: {
@@ -55,7 +48,7 @@ export default {
         'nav-link': ['12px', { lineHeight: '1.0', letterSpacing: '-0.12px', fontWeight: '400' }],
       },
       boxShadow: {
-        'product': 'rgba(0, 0, 0, 0.22) 3px 5px 30px 0px',
+        'product': '0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02)',
       },
       borderRadius: {
         'pill': '9999px',

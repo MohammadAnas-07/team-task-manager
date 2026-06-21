@@ -8,7 +8,7 @@ export default function LoadingSpinner({ size = 'md' }) {
   return (
     <div className="flex items-center justify-center">
       <div
-        className={`${sizeMap[size]} border-[3px] border-apple-surface-tile-2 border-t-apple-primary rounded-full animate-spin`}
+        className={`${sizeMap[size]} border-[3px] border-theme-border border-t-theme-primary rounded-full animate-spin`}
         role="status"
         aria-label="Loading"
       />

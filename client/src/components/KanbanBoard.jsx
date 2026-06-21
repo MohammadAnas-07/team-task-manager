@@ -16,16 +16,16 @@ export default function KanbanBoard({ tasks, isAdmin, onEdit, onDelete }) {
         const columnTasks = tasks.filter((t) => t.status === column.id);
 
         return (
-          <div key={column.id} className="flex flex-col bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[24px] p-5 shadow-sm h-full min-h-[500px]">
+          <div key={column.id} className="flex flex-col bg-white border border-theme-border rounded-[24px] p-5 shadow-sm h-full min-h-[500px]">
             {/* Column Header */}
             <div className="flex items-center justify-between mb-5 px-2">
               <div className="flex items-center gap-2.5">
                 <div className={`w-8 h-8 rounded-[9px] flex items-center justify-center ${column.bgClass}`}>
                   <column.icon className={`w-4 h-4 ${column.colorClass}`} />
                 </div>
-                <h3 className="text-[17px] font-semibold text-apple-on-dark tracking-tight">{column.label}</h3>
+                <h3 className="text-[17px] font-semibold text-theme-text tracking-tight">{column.label}</h3>
               </div>
-              <span className="px-2.5 py-1 text-[13px] font-medium bg-apple-surface-tile-2 text-apple-body-muted rounded-[8px]">
+              <span className="px-2.5 py-1 text-[13px] font-medium bg-theme-secondary text-theme-text-secondary rounded-[8px]">
                 {columnTasks.length}
               </span>
             </div>
@@ -37,7 +37,7 @@ export default function KanbanBoard({ tasks, isAdmin, onEdit, onDelete }) {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                   className={`flex-1 flex flex-col gap-4 rounded-[16px] transition-colors duration-200 ${
-                    snapshot.isDraggingOver ? 'bg-apple-surface-tile-2/50 p-2 -mx-2 -my-2' : ''
+                    snapshot.isDraggingOver ? 'bg-theme-secondary/80 p-2 -mx-2 -my-2' : ''
                   }`}
                 >
                   {columnTasks.map((task, index) => (

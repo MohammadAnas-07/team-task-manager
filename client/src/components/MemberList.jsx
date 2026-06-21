@@ -55,22 +55,22 @@ export default function MemberList({ members, projectId, onMembersChange, isAdmi
           <motion.div
             layout
             key={member.id || member.user.id}
-            className="flex items-center justify-between gap-3 p-3 bg-apple-surface-tile-1 rounded-[11px] border border-apple-surface-tile-2 hover:border-apple-surface-tile-3 transition-colors duration-200"
+            className="flex items-center justify-between gap-3 p-3 bg-white rounded-[11px] border border-theme-border hover:border-theme-border-hover transition-colors duration-200"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-apple-surface-tile-3 flex items-center justify-center text-[14px] font-semibold text-apple-on-dark flex-shrink-0 border border-apple-surface-tile-2">
+              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-[14px] font-semibold text-theme-text flex-shrink-0 border border-theme-border">
                 {member.user.name.charAt(0).toUpperCase()}
               </div>
               <div>
-                <p className="text-[17px] font-semibold text-apple-on-dark leading-snug tracking-[-0.374px]">{member.user.name}</p>
-                <p className="text-[14px] text-apple-body-muted tracking-[-0.224px]">{member.user.email}</p>
+                <p className="text-[17px] font-semibold text-theme-text leading-snug tracking-[-0.374px]">{member.user.name}</p>
+                <p className="text-[14px] text-theme-text-secondary tracking-[-0.224px]">{member.user.email}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-[8px] text-[12px] font-medium leading-none ${
                 member.role === 'ADMIN'
                   ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                  : 'bg-apple-surface-tile-2 text-apple-body-muted border border-transparent'
+                  : 'bg-theme-secondary text-theme-text-secondary border border-transparent'
               }`}>
                 {member.role === 'ADMIN' ? <Crown className="w-3.5 h-3.5" /> : <User className="w-3.5 h-3.5" />}
                 {member.role}
@@ -80,7 +80,7 @@ export default function MemberList({ members, projectId, onMembersChange, isAdmi
                   id={`remove-member-${member.user.id}`}
                   onClick={() => handleRemoveMember(member.user.id)}
                   disabled={removingId === member.user.id}
-                  className="p-2 text-apple-body-muted hover:text-red-400 hover:bg-red-500/10 rounded-[8px] transition-colors disabled:opacity-50"
+                  className="p-2 text-theme-text-secondary hover:text-red-400 hover:bg-red-500/10 rounded-[8px] transition-colors disabled:opacity-50"
                   aria-label={`Remove ${member.user.name}`}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -93,9 +93,9 @@ export default function MemberList({ members, projectId, onMembersChange, isAdmi
 
       {/* Add member form */}
       {isAdmin && (
-        <div className="bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[18px] p-5">
-          <h4 className="text-[17px] font-semibold text-apple-on-dark mb-4 flex items-center gap-2 tracking-[-0.374px]">
-            <UserPlus className="w-5 h-5 text-apple-primary" />
+        <div className="bg-white border border-theme-border rounded-[18px] p-5">
+          <h4 className="text-[17px] font-semibold text-theme-text mb-4 flex items-center gap-2 tracking-[-0.374px]">
+            <UserPlus className="w-5 h-5 text-theme-primary" />
             Add Member
           </h4>
           <form onSubmit={handleAddMember} className="space-y-4" id="add-member-form">
@@ -129,7 +129,7 @@ export default function MemberList({ members, projectId, onMembersChange, isAdmi
               className="btn-primary w-full sm:w-auto"
             >
               {addLoading ? (
-                <div className="w-4 h-4 border-[3px] border-apple-on-primary/30 border-t-apple-on-primary rounded-full animate-spin" />
+                <div className="w-4 h-4 border-[3px] border-gray-200 border-t-theme-text rounded-full animate-spin" />
               ) : (
                 <>
                   <UserPlus className="w-4 h-4" />

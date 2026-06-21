@@ -11,6 +11,8 @@ import ProjectDetail from './pages/ProjectDetail';
 import CreateProject from './pages/CreateProject';
 import NotFound from './pages/NotFound';
 import MyTasks from './pages/MyTasks';
+import AiMeetingAssistant from './pages/AiMeetingAssistant';
+import Analytics from './pages/Analytics';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +50,14 @@ const router = createBrowserRouter([
       {
         path: 'projects/:id',
         element: <ProjectDetail />,
+      },
+      {
+        path: 'ai-meeting-assistant',
+        element: <AiMeetingAssistant />,
+      },
+      {
+        path: 'analytics',
+        element: <Analytics />,
       },
     ],
   },

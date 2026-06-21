@@ -86,7 +86,7 @@ export default function TaskModal({ isOpen, onClose, onSuccess, projectId, membe
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-apple-surface-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
           />
 
@@ -96,11 +96,11 @@ export default function TaskModal({ isOpen, onClose, onSuccess, projectId, membe
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-lg bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[24px] shadow-product max-h-[90vh] flex flex-col overflow-hidden"
+            className="relative w-full max-w-lg bg-white border border-theme-border rounded-[24px] shadow-product max-h-[90vh] flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-apple-surface-tile-2 shrink-0">
-              <h2 className="text-[21px] font-semibold text-apple-on-dark tracking-[-0.374px]">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-theme-border shrink-0">
+              <h2 className="text-[21px] font-semibold text-theme-text tracking-[-0.374px]">
                 {isEditing ? 'Edit Task' : 'New Task'}
               </h2>
               <button
@@ -223,7 +223,7 @@ export default function TaskModal({ isOpen, onClose, onSuccess, projectId, membe
               </div>
 
               {/* Actions */}
-              <div className="flex gap-4 pt-6 mt-6 border-t border-apple-surface-tile-2">
+              <div className="flex gap-4 pt-6 mt-6 border-t border-theme-border">
                 <button
                   type="button"
                   onClick={onClose}

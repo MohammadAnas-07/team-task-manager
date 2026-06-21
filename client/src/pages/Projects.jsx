@@ -51,8 +51,8 @@ export default function Projects() {
       {/* Header */}
       <div className="flex items-center justify-between mb-8 mt-4">
         <div>
-          <h1 className="text-[40px] font-semibold text-apple-on-dark leading-tight tracking-tight">Your Projects</h1>
-          <p className="text-[21px] text-apple-body-muted mt-2 tracking-[0.231px]">{projects.length} project{projects.length !== 1 ? 's' : ''}</p>
+          <h1 className="text-[40px] font-semibold text-theme-text leading-tight tracking-tight">Your Projects</h1>
+          <p className="text-[21px] text-theme-text-secondary mt-2 tracking-[0.231px]">{projects.length} project{projects.length !== 1 ? 's' : ''}</p>
         </div>
         <Link to="/projects/new" id="new-project-btn" className="btn-primary">
           <Plus className="w-5 h-5" />
@@ -66,11 +66,11 @@ export default function Projects() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-apple-surface-tile-1 border border-dashed border-apple-surface-tile-3 rounded-[24px] p-16 text-center mt-12"
+          className="bg-white border border-dashed border-theme-border-hover rounded-[24px] p-16 text-center mt-12"
         >
-          <Layers className="w-16 h-16 text-apple-ink-muted-48 mx-auto mb-6" />
-          <h3 className="text-apple-on-dark font-semibold text-[28px] tracking-tight mb-3">No projects yet</h3>
-          <p className="text-[17px] text-apple-body-muted mb-8 tracking-[-0.374px] max-w-md mx-auto">
+          <Layers className="w-16 h-16 text-gray-400 mx-auto mb-6" />
+          <h3 className="text-theme-text font-semibold text-[28px] tracking-tight mb-3">No projects yet</h3>
+          <p className="text-[17px] text-theme-text-secondary mb-8 tracking-[-0.374px] max-w-md mx-auto">
             Create your first project to start organizing tasks and collaborating with your team.
           </p>
           <Link to="/projects/new" className="btn-primary inline-flex">
@@ -90,32 +90,32 @@ export default function Projects() {
               <Link
                 to={`/projects/${project.id}`}
                 id={`project-card-${project.id}`}
-                className="bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[24px] p-6 hover:border-apple-surface-tile-3 transition-colors duration-300 group block h-full flex flex-col shadow-product"
+                className="bg-white border border-theme-border rounded-[24px] p-6 hover:border-theme-border-hover transition-colors duration-300 group block h-full flex flex-col shadow-product"
               >
                 {/* Project icon + name */}
                 <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-[11px] bg-apple-primary/10 flex items-center justify-center flex-shrink-0">
-                    <FolderOpen className="w-6 h-6 text-apple-primary" />
+                  <div className="w-12 h-12 rounded-[11px] bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <FolderOpen className="w-6 h-6 text-theme-primary" />
                   </div>
-                  <ChevronRight className="w-5 h-5 text-apple-body-muted group-hover:text-apple-on-dark transition-colors mt-1" />
+                  <ChevronRight className="w-5 h-5 text-theme-text-secondary group-hover:text-theme-text transition-colors mt-1" />
                 </div>
 
-                <h3 className="font-semibold text-apple-on-dark text-[21px] tracking-[-0.374px] mb-2 truncate">{project.name}</h3>
+                <h3 className="font-semibold text-theme-text text-[21px] tracking-[-0.374px] mb-2 truncate">{project.name}</h3>
                 <div className="flex-1">
                   {project.description ? (
-                    <p className="text-[14px] text-apple-body-muted line-clamp-2 tracking-[-0.224px] leading-relaxed">{project.description}</p>
+                    <p className="text-[14px] text-theme-text-secondary line-clamp-2 tracking-[-0.224px] leading-relaxed">{project.description}</p>
                   ) : (
-                    <p className="text-[14px] text-apple-ink-muted-48 italic tracking-[-0.224px]">No description</p>
+                    <p className="text-[14px] text-gray-400 italic tracking-[-0.224px]">No description</p>
                   )}
                 </div>
 
                 {/* Stats */}
-                <div className="flex items-center gap-5 mt-6 pt-5 border-t border-apple-surface-tile-2">
-                  <div className="flex items-center gap-2 text-[14px] font-medium text-apple-body-muted tracking-[-0.224px]">
+                <div className="flex items-center gap-5 mt-6 pt-5 border-t border-theme-border">
+                  <div className="flex items-center gap-2 text-[14px] font-medium text-theme-text-secondary tracking-[-0.224px]">
                     <Users className="w-4 h-4" />
                     <span>{project._count?.members ?? 0}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-[14px] font-medium text-apple-body-muted tracking-[-0.224px]">
+                  <div className="flex items-center gap-2 text-[14px] font-medium text-theme-text-secondary tracking-[-0.224px]">
                     <CheckSquare className="w-4 h-4" />
                     <span>{project._count?.tasks ?? 0}</span>
                   </div>

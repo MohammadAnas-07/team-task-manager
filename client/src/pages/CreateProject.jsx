@@ -37,20 +37,20 @@ export default function CreateProject() {
       {/* Back button */}
       <button
         onClick={() => navigate('/projects')}
-        className="flex items-center gap-2 text-apple-body-muted hover:text-apple-on-dark text-[14px] mb-8 transition-colors tracking-[-0.224px] font-medium"
+        className="flex items-center gap-2 text-theme-text-secondary hover:text-theme-text text-[14px] mb-8 transition-colors tracking-[-0.224px] font-medium"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to projects
       </button>
 
-      <div className="bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[24px] p-8 shadow-product">
+      <div className="bg-white border border-theme-border rounded-[24px] p-8 shadow-product">
         <div className="flex items-center gap-4 mb-8">
-          <div className="w-12 h-12 rounded-[11px] bg-apple-primary/10 flex items-center justify-center border border-apple-primary/20">
-            <FolderPlus className="w-6 h-6 text-apple-primary" />
+          <div className="w-12 h-12 rounded-[11px] bg-gray-100 flex items-center justify-center border border-gray-200">
+            <FolderPlus className="w-6 h-6 text-theme-primary" />
           </div>
           <div>
-            <h1 className="text-[24px] font-semibold text-apple-on-dark tracking-tight">Create New Project</h1>
-            <p className="text-[14px] text-apple-body-muted mt-1 tracking-[-0.224px]">You'll be the administrator</p>
+            <h1 className="text-[24px] font-semibold text-theme-text tracking-tight">Create New Project</h1>
+            <p className="text-[14px] text-theme-text-secondary mt-1 tracking-[-0.224px]">You'll be the administrator</p>
           </div>
         </div>
 
@@ -82,10 +82,10 @@ export default function CreateProject() {
               className="input-field resize-none"
               maxLength={500}
             />
-            <p className="text-[12px] text-apple-ink-muted-48 mt-2 tracking-[-0.12px] text-right">{description.length}/500</p>
+            <p className="text-[12px] text-gray-400 mt-2 tracking-[-0.12px] text-right">{description.length}/500</p>
           </div>
 
-          <div className="flex gap-4 pt-4 border-t border-apple-surface-tile-2">
+          <div className="flex gap-4 pt-4 border-t border-theme-border">
             <button
               type="button"
               onClick={() => navigate('/projects')}

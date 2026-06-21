@@ -209,7 +209,7 @@ export default function ProjectDetail() {
       className="max-w-[1068px] mx-auto space-y-8 pb-12"
     >
       {/* Project Header */}
-      <div className="bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[24px] p-8 shadow-product mt-4">
+      <div className="bg-white border border-theme-border rounded-[24px] p-8 shadow-product mt-4">
         {editingProject ? (
           <form onSubmit={handleSaveProject} className="space-y-5" id="edit-project-form">
             <div>
@@ -255,15 +255,15 @@ export default function ProjectDetail() {
         ) : (
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="flex items-center gap-5">
-              <div className="w-14 h-14 rounded-[14px] bg-apple-primary/10 border border-apple-primary/20 flex items-center justify-center flex-shrink-0">
-                <FolderOpen className="w-7 h-7 text-apple-primary" />
+              <div className="w-14 h-14 rounded-[14px] bg-gray-100 border border-gray-200 flex items-center justify-center flex-shrink-0">
+                <FolderOpen className="w-7 h-7 text-theme-primary" />
               </div>
               <div>
-                <h1 className="text-[28px] font-semibold text-apple-on-dark tracking-tight leading-tight">{project.name}</h1>
+                <h1 className="text-[28px] font-semibold text-theme-text tracking-tight leading-tight">{project.name}</h1>
                 {project.description && (
-                  <p className="text-[14px] text-apple-body-muted mt-1 tracking-[-0.224px]">{project.description}</p>
+                  <p className="text-[14px] text-theme-text-secondary mt-1 tracking-[-0.224px]">{project.description}</p>
                 )}
-                <div className="flex items-center gap-5 mt-3 text-[14px] font-medium text-apple-body-muted tracking-[-0.224px]">
+                <div className="flex items-center gap-5 mt-3 text-[14px] font-medium text-theme-text-secondary tracking-[-0.224px]">
                   <span className="flex items-center gap-2">
                     <Users className="w-4 h-4" />
                     {members.length} member{members.length !== 1 ? 's' : ''}
@@ -301,14 +301,14 @@ export default function ProjectDetail() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[14px] p-1.5 w-max shadow-sm">
+      <div className="flex gap-2 bg-white border border-theme-border rounded-[14px] p-1.5 w-max shadow-sm">
         <button
           id="tab-tasks"
           onClick={() => setActiveTab('tasks')}
           className={`flex items-center justify-center gap-2.5 px-6 py-2.5 rounded-[11px] text-[14px] font-medium transition-all duration-200 ${
             activeTab === 'tasks'
-              ? 'bg-apple-surface-tile-2 text-apple-on-dark shadow-product'
-              : 'text-apple-body-muted hover:text-apple-on-dark hover:bg-apple-surface-tile-2/50'
+              ? 'bg-theme-secondary text-theme-text shadow-product'
+              : 'text-theme-text-secondary hover:text-theme-text hover:bg-theme-secondary/80'
           }`}
         >
           <CheckSquare className="w-4 h-4" />
@@ -319,8 +319,8 @@ export default function ProjectDetail() {
           onClick={() => setActiveTab('members')}
           className={`flex items-center justify-center gap-2.5 px-6 py-2.5 rounded-[11px] text-[14px] font-medium transition-all duration-200 ${
             activeTab === 'members'
-              ? 'bg-apple-surface-tile-2 text-apple-on-dark shadow-product'
-              : 'text-apple-body-muted hover:text-apple-on-dark hover:bg-apple-surface-tile-2/50'
+              ? 'bg-theme-secondary text-theme-text shadow-product'
+              : 'text-theme-text-secondary hover:text-theme-text hover:bg-theme-secondary/80'
           }`}
         >
           <Users className="w-4 h-4" />
@@ -341,13 +341,13 @@ export default function ProjectDetail() {
               
               <div className="flex items-center gap-4">
                 {/* View Toggle */}
-                <div className="flex items-center p-1 bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[12px] shadow-sm">
+                <div className="flex items-center p-1 bg-white border border-theme-border rounded-[12px] shadow-sm">
                   <button
                     onClick={() => setViewMode('list')}
                     className={`flex items-center gap-2 px-3 py-1.5 rounded-[9px] text-[13px] font-medium transition-all duration-200 ${
                       viewMode === 'list' 
-                        ? 'bg-apple-surface-tile-2 text-apple-on-dark shadow-sm' 
-                        : 'text-apple-body-muted hover:text-apple-on-dark'
+                        ? 'bg-theme-secondary text-theme-text shadow-sm' 
+                        : 'text-theme-text-secondary hover:text-theme-text'
                     }`}
                   >
                     <LayoutList className="w-4 h-4" />
@@ -357,8 +357,8 @@ export default function ProjectDetail() {
                     onClick={() => setViewMode('board')}
                     className={`flex items-center gap-2 px-3 py-1.5 rounded-[9px] text-[13px] font-medium transition-all duration-200 ${
                       viewMode === 'board' 
-                        ? 'bg-apple-surface-tile-2 text-apple-on-dark shadow-sm' 
-                        : 'text-apple-body-muted hover:text-apple-on-dark'
+                        ? 'bg-theme-secondary text-theme-text shadow-sm' 
+                        : 'text-theme-text-secondary hover:text-theme-text'
                     }`}
                   >
                     <KanbanSquare className="w-4 h-4" />
@@ -369,7 +369,7 @@ export default function ProjectDetail() {
                 {/* Filters (only visible in List view) */}
                 {viewMode === 'list' && (
                   <div className="hidden sm:flex items-center gap-2 flex-wrap">
-                    <Filter className="w-4 h-4 text-apple-ink-muted-48 mr-1" />
+                    <Filter className="w-4 h-4 text-gray-400 mr-1" />
                     {STATUS_FILTERS.map((f) => (
                       <button
                         key={f.value}
@@ -377,8 +377,8 @@ export default function ProjectDetail() {
                         onClick={() => setStatusFilter(f.value)}
                         className={`px-3.5 py-1.5 rounded-[9px] text-[13px] font-medium transition-all duration-200 ${
                           statusFilter === f.value
-                            ? 'bg-apple-surface-tile-2 text-apple-on-dark border border-apple-surface-tile-3'
-                            : 'bg-transparent text-apple-body-muted border border-transparent hover:text-apple-on-dark hover:bg-apple-surface-tile-2/50'
+                            ? 'bg-theme-secondary text-theme-text border border-theme-border-hover'
+                            : 'bg-transparent text-theme-text-secondary border border-transparent hover:text-theme-text hover:bg-theme-secondary/80'
                         }`}
                       >
                         {f.label}
@@ -404,12 +404,12 @@ export default function ProjectDetail() {
                 <LoadingSpinner size="md" />
               </div>
             ) : tasks.length === 0 && viewMode === 'list' ? (
-              <div className="bg-apple-surface-tile-1 border border-dashed border-apple-surface-tile-3 rounded-[24px] p-16 text-center mt-8">
-                <CheckSquare className="w-12 h-12 text-apple-ink-muted-48 mx-auto mb-4" />
-                <h3 className="text-apple-on-dark font-semibold text-[21px] tracking-tight mb-2">
+              <div className="bg-white border border-dashed border-theme-border-hover rounded-[24px] p-16 text-center mt-8">
+                <CheckSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-theme-text font-semibold text-[21px] tracking-tight mb-2">
                   {statusFilter ? `No ${statusFilter.toLowerCase().replace('_', ' ')} tasks` : 'No tasks yet'}
                 </h3>
-                <p className="text-apple-body-muted text-[17px] mb-6 tracking-[-0.374px]">
+                <p className="text-theme-text-secondary text-[17px] mb-6 tracking-[-0.374px]">
                   {statusFilter ? 'Try a different filter or create a new task.' : 'Add your first task to get started.'}
                 </p>
                 {!statusFilter && (
@@ -452,9 +452,9 @@ export default function ProjectDetail() {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[24px] p-8 shadow-product"
+          className="bg-white border border-theme-border rounded-[24px] p-8 shadow-product"
         >
-          <h3 className="text-[21px] font-semibold text-apple-on-dark mb-6 tracking-[-0.374px]">Project Members</h3>
+          <h3 className="text-[21px] font-semibold text-theme-text mb-6 tracking-[-0.374px]">Project Members</h3>
           <MemberList
             members={members}
             projectId={id}

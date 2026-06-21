@@ -131,8 +131,8 @@ export default function MyTasks() {
     >
       <div className="flex items-center justify-between mb-8 mt-4">
         <div>
-          <h1 className="text-[28px] font-semibold text-apple-on-dark tracking-tight leading-tight">My Tasks</h1>
-          <p className="text-[14px] text-apple-body-muted mt-1 tracking-[-0.224px]">View all tasks assigned to you across all projects</p>
+          <h1 className="text-[28px] font-semibold text-theme-text tracking-tight leading-tight">My Tasks</h1>
+          <p className="text-[14px] text-theme-text-secondary mt-1 tracking-[-0.224px]">View all tasks assigned to you across all projects</p>
         </div>
       </div>
 
@@ -143,13 +143,13 @@ export default function MyTasks() {
             
             <div className="flex items-center gap-4">
               {/* View Toggle */}
-              <div className="flex items-center p-1 bg-apple-surface-tile-1 border border-apple-surface-tile-2 rounded-[12px] shadow-sm">
+              <div className="flex items-center p-1 bg-white border border-theme-border rounded-[12px] shadow-sm">
                 <button
                   onClick={() => setViewMode('list')}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-[9px] text-[13px] font-medium transition-all duration-200 ${
                     viewMode === 'list' 
-                      ? 'bg-apple-surface-tile-2 text-apple-on-dark shadow-sm' 
-                      : 'text-apple-body-muted hover:text-apple-on-dark'
+                      ? 'bg-theme-secondary text-theme-text shadow-sm' 
+                      : 'text-theme-text-secondary hover:text-theme-text'
                   }`}
                 >
                   <LayoutList className="w-4 h-4" />
@@ -159,8 +159,8 @@ export default function MyTasks() {
                   onClick={() => setViewMode('board')}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-[9px] text-[13px] font-medium transition-all duration-200 ${
                     viewMode === 'board' 
-                      ? 'bg-apple-surface-tile-2 text-apple-on-dark shadow-sm' 
-                      : 'text-apple-body-muted hover:text-apple-on-dark'
+                      ? 'bg-theme-secondary text-theme-text shadow-sm' 
+                      : 'text-theme-text-secondary hover:text-theme-text'
                   }`}
                 >
                   <KanbanSquare className="w-4 h-4" />
@@ -171,7 +171,7 @@ export default function MyTasks() {
               {/* Filters (only visible in List view) */}
               {viewMode === 'list' && (
                 <div className="hidden sm:flex items-center gap-2 flex-wrap">
-                  <Filter className="w-4 h-4 text-apple-ink-muted-48 mr-1" />
+                  <Filter className="w-4 h-4 text-gray-400 mr-1" />
                   {STATUS_FILTERS.map((f) => (
                     <button
                       key={f.value}
@@ -179,8 +179,8 @@ export default function MyTasks() {
                       onClick={() => setStatusFilter(f.value)}
                       className={`px-3.5 py-1.5 rounded-[9px] text-[13px] font-medium transition-all duration-200 ${
                         statusFilter === f.value
-                          ? 'bg-apple-surface-tile-2 text-apple-on-dark border border-apple-surface-tile-3'
-                          : 'bg-transparent text-apple-body-muted border border-transparent hover:text-apple-on-dark hover:bg-apple-surface-tile-2/50'
+                          ? 'bg-theme-secondary text-theme-text border border-theme-border-hover'
+                          : 'bg-transparent text-theme-text-secondary border border-transparent hover:text-theme-text hover:bg-theme-secondary/80'
                       }`}
                     >
                       {f.label}
@@ -193,12 +193,12 @@ export default function MyTasks() {
 
           {/* Task list / board */}
           {tasks.length === 0 && viewMode === 'list' ? (
-            <div className="bg-apple-surface-tile-1 border border-dashed border-apple-surface-tile-3 rounded-[24px] p-16 text-center mt-8">
-              <CheckSquare className="w-12 h-12 text-apple-ink-muted-48 mx-auto mb-4" />
-              <h3 className="text-apple-on-dark font-semibold text-[21px] tracking-tight mb-2">
+            <div className="bg-white border border-dashed border-theme-border-hover rounded-[24px] p-16 text-center mt-8">
+              <CheckSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-theme-text font-semibold text-[21px] tracking-tight mb-2">
                 {statusFilter ? `No ${statusFilter.toLowerCase().replace('_', ' ')} tasks` : 'No tasks yet'}
               </h3>
-              <p className="text-apple-body-muted text-[17px] tracking-[-0.374px]">
+              <p className="text-theme-text-secondary text-[17px] tracking-[-0.374px]">
                 {statusFilter ? 'Try a different filter.' : "You don't have any assigned tasks."}
               </p>
             </div>

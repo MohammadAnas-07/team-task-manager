@@ -3,9 +3,9 @@ import { CheckCircle2, Circle, AlertCircle, ArrowUpCircle, ArrowRightCircle, Arr
 const STATUS_CONFIG = {
   TODO: {
     label: 'To Do',
-    classes: 'bg-apple-surface-tile-2 text-apple-on-dark border border-apple-surface-tile-3',
+    classes: 'bg-theme-secondary text-theme-text border border-theme-border-hover',
     icon: Circle,
-    iconColor: 'text-apple-body-muted'
+    iconColor: 'text-theme-text-secondary'
   },
   IN_PROGRESS: {
     label: 'In Progress',
@@ -15,24 +15,24 @@ const STATUS_CONFIG = {
   },
   DONE: {
     label: 'Done',
-    classes: 'bg-apple-primary/10 text-apple-primary border border-apple-primary/20',
+    classes: 'bg-gray-100 text-theme-primary border border-gray-200',
     icon: CheckCircle2,
-    iconColor: 'text-apple-primary'
+    iconColor: 'text-theme-primary'
   },
 };
 
 const PRIORITY_CONFIG = {
   LOW: {
     label: 'Low',
-    classes: 'bg-apple-surface-tile-2 text-apple-body-muted border border-transparent',
+    classes: 'bg-theme-secondary text-theme-text-secondary border border-transparent',
     icon: ArrowDownCircle,
-    iconColor: 'text-apple-body-muted',
+    iconColor: 'text-theme-text-secondary',
   },
   MEDIUM: {
     label: 'Medium',
-    classes: 'bg-apple-surface-tile-2 text-apple-on-dark border border-transparent',
+    classes: 'bg-theme-secondary text-theme-text border border-transparent',
     icon: ArrowRightCircle,
-    iconColor: 'text-apple-on-dark',
+    iconColor: 'text-theme-text',
   },
   HIGH: {
     label: 'High',
