@@ -1,4 +1,5 @@
 const prisma = require('../lib/prisma');
+const { notifyUser, logActivity } = require('../services/notification.service');
 
 const getTasks = async (req, res) => {
   try {
@@ -69,6 +70,30 @@ const createTask = async (req, res) => {
       },
     });
 
+    // Activity Log
+    await logActivity({
+      projectId,
+      userId,
+      action: 'TASK_CREATED',
+      details: `Created task "${task.title}"`
+    });
+
+    // Notify assignee
+    if (assigneeId && assigneeId !== userId) {
+      await notifyUser({
+        userId: assigneeId,
+        type: 'TASK_ASSIGNED',
+        title: 'New Task Assigned',
+        message: `You were assigned: ${task.title}`,
+        emailHtml: `
+          <h3>New Task Assigned</h3>
+          <p>You have been assigned a new task: <strong>${task.title}</strong></p>
+          <p>Priority: ${task.priority}</p>
+          <p>Log in to view details.</p>
+        `
+      });
+    }
+
     res.status(201).json({ task });
   } catch (err) {
     console.error('Create task error:', err);
@@ -130,6 +155,28 @@ const updateTask = async (req, res) => {
         creator: { select: { id: true, name: true, email: true } },
       },
     });
+
+    // Activity log if status changed
+    if (status !== undefined && status !== task.status) {
+      const action = status === 'DONE' ? 'TASK_COMPLETED' : 'TASK_UPDATED';
+      await logActivity({
+        projectId,
+        userId,
+        action,
+        details: `${action === 'TASK_COMPLETED' ? 'Completed' : 'Updated status of'} task "${updatedTask.title}"`
+      });
+
+      // Notify assignee if someone else updated it
+      if (updatedTask.assigneeId && updatedTask.assigneeId !== userId) {
+        await notifyUser({
+          userId: updatedTask.assigneeId,
+          type: 'TASK_UPDATED',
+          title: 'Task Updated',
+          message: `Task "${updatedTask.title}" status changed to ${status}`,
+          emailHtml: `<p>Your task <strong>${updatedTask.title}</strong> status was changed to ${status}.</p>`
+        });
+      }
+    }
 
     res.json({ task: updatedTask });
   } catch (err) {

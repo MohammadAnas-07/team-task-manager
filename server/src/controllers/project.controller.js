@@ -1,4 +1,5 @@
 const prisma = require('../lib/prisma');
+const { notifyUser, logActivity } = require('../services/notification.service');
 
 const getProjects = async (req, res) => {
   try {
@@ -48,6 +49,13 @@ const createProject = async (req, res) => {
       });
 
       return newProject;
+    });
+
+    await logActivity({
+      projectId: project.id,
+      userId,
+      action: 'PROJECT_CREATED',
+      details: `Created project "${project.name}"`
     });
 
     const fullProject = await prisma.project.findUnique({
@@ -178,6 +186,29 @@ const addMember = async (req, res) => {
       },
     });
 
+    const project = await prisma.project.findUnique({ where: { id: projectId } });
+    
+    // Activity Log
+    await logActivity({
+      projectId,
+      userId: req.user.userId, // The one adding the member
+      action: 'MEMBER_ADDED',
+      details: `Added ${user.name} to the project`
+    });
+
+    // Notification & Email
+    await notifyUser({
+      userId: user.id,
+      type: 'PROJECT_INVITATION',
+      title: 'Project Invitation',
+      message: `You were added to the project: ${project.name}`,
+      emailHtml: `
+        <h3>Welcome to the team!</h3>
+        <p>You have been added to the project <strong>${project.name}</strong>.</p>
+        <p>Log in to view your tasks and collaborate.</p>
+      `
+    });
+
     res.status(201).json({ member });
   } catch (err) {
     console.error('Add member error:', err);
@@ -211,6 +242,14 @@ const removeMember = async (req, res) => {
 
     await prisma.projectMember.delete({
       where: { userId_projectId: { userId: targetUserId, projectId } },
+    });
+
+    const user = await prisma.user.findUnique({ where: { id: targetUserId } });
+    await logActivity({
+      projectId,
+      userId: requestingUserId,
+      action: 'MEMBER_REMOVED',
+      details: `Removed ${user ? user.name : 'a member'} from the project`
     });
 
     res.json({ message: 'Member removed successfully' });

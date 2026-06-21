@@ -13,6 +13,7 @@ import NotFound from './pages/NotFound';
 import MyTasks from './pages/MyTasks';
 import AiMeetingAssistant from './pages/AiMeetingAssistant';
 import Analytics from './pages/Analytics';
+import Subscription from './pages/Subscription';
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: 'analytics',
         element: <Analytics />,
+      },
+      {
+        path: 'subscription',
+        element: <Subscription />,
       },
     ],
   },

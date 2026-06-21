@@ -1,6 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
+import GlobalSearchModal from '../components/GlobalSearchModal';
+import FloatingActionMenu from '../components/FloatingActionMenu';
 
 export default function AppLayout() {
   return (
@@ -13,6 +15,8 @@ export default function AppLayout() {
             <Outlet />
           </div>
         </main>
+        <GlobalSearchModal />
+        <FloatingActionMenu />
       </div>
     </div>
   );

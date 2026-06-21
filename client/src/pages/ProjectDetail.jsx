@@ -12,7 +12,10 @@ import {
   ChevronDown,
   Edit3,
   LayoutList,
-  KanbanSquare
+  KanbanSquare,
+  Activity,
+  Search,
+  Flag
 } from 'lucide-react';
 import api from '../api/axios';
 import { useAuth } from '../hooks/useAuth';
@@ -21,6 +24,8 @@ import TaskModal from '../components/TaskModal';
 import MemberList from '../components/MemberList';
 import LoadingSpinner from '../components/LoadingSpinner';
 import KanbanBoard from '../components/KanbanBoard';
+import ActivityFeed from '../components/ActivityFeed';
+import EmptyState from '../components/EmptyState';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DragDropContext } from '@hello-pangea/dnd';
@@ -30,6 +35,13 @@ const STATUS_FILTERS = [
   { value: 'TODO', label: 'To Do' },
   { value: 'IN_PROGRESS', label: 'In Progress' },
   { value: 'DONE', label: 'Done' },
+];
+
+const PRIORITY_FILTERS = [
+  { value: '', label: 'All Priorities' },
+  { value: 'LOW', label: 'Low' },
+  { value: 'MEDIUM', label: 'Medium' },
+  { value: 'HIGH', label: 'High' },
 ];
 
 export default function ProjectDetail() {
@@ -44,6 +56,8 @@ export default function ProjectDetail() {
   const [error, setError] = useState(null);
 
   const [statusFilter, setStatusFilter] = useState('');
+  const [priorityFilter, setPriorityFilter] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('tasks');
   const [viewMode, setViewMode] = useState('list'); // 'list' | 'board'
 
@@ -87,6 +101,9 @@ export default function ProjectDetail() {
         if (statusFilter && viewMode === 'list') {
           // Only apply status filter in list view, board view needs all tasks to show columns
           params.append('status', statusFilter);
+        }
+        if (priorityFilter) {
+          params.append('priority', priorityFilter);
         }
         const { data } = await api.get(`/api/projects/${id}/tasks?${params}`);
         setTasks(data.tasks);
@@ -154,6 +171,12 @@ export default function ProjectDetail() {
       toast.error(err.response?.data?.error || 'Failed to update task status');
     }
   };
+
+  const filteredTasks = tasks.filter(t => 
+    !searchQuery || 
+    t.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    (t.description && t.description.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   const handleSaveProject = async (e) => {
     e.preventDefault();
@@ -326,6 +349,18 @@ export default function ProjectDetail() {
           <Users className="w-4 h-4" />
           Members ({members.length})
         </button>
+        <button
+          id="tab-activity"
+          onClick={() => setActiveTab('activity')}
+          className={`flex items-center justify-center gap-2.5 px-6 py-2.5 rounded-[11px] text-[14px] font-medium transition-all duration-200 ${
+            activeTab === 'activity'
+              ? 'bg-theme-secondary text-theme-text shadow-product'
+              : 'text-theme-text-secondary hover:text-theme-text hover:bg-theme-secondary/80'
+          }`}
+        >
+          <Activity className="w-4 h-4" />
+          Activity
+        </button>
       </div>
 
       {/* Tasks Tab */}
@@ -370,20 +405,37 @@ export default function ProjectDetail() {
                 {viewMode === 'list' && (
                   <div className="hidden sm:flex items-center gap-2 flex-wrap">
                     <Filter className="w-4 h-4 text-gray-400 mr-1" />
-                    {STATUS_FILTERS.map((f) => (
-                      <button
-                        key={f.value}
-                        id={`filter-${f.value || 'all'}`}
-                        onClick={() => setStatusFilter(f.value)}
-                        className={`px-3.5 py-1.5 rounded-[9px] text-[13px] font-medium transition-all duration-200 ${
-                          statusFilter === f.value
-                            ? 'bg-theme-secondary text-theme-text border border-theme-border-hover'
-                            : 'bg-transparent text-theme-text-secondary border border-transparent hover:text-theme-text hover:bg-theme-secondary/80'
-                        }`}
-                      >
-                        {f.label}
-                      </button>
-                    ))}
+                    <select
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value)}
+                      className="text-[13px] font-medium bg-white border border-theme-border rounded-[8px] px-2 py-1.5 focus:outline-none focus:border-theme-primary cursor-pointer"
+                    >
+                      {STATUS_FILTERS.map(f => (
+                        <option key={f.value} value={f.value}>{f.label}</option>
+                      ))}
+                    </select>
+
+                    <Flag className="w-4 h-4 text-gray-400 ml-2 mr-1" />
+                    <select
+                      value={priorityFilter}
+                      onChange={(e) => setPriorityFilter(e.target.value)}
+                      className="text-[13px] font-medium bg-white border border-theme-border rounded-[8px] px-2 py-1.5 focus:outline-none focus:border-theme-primary cursor-pointer"
+                    >
+                      {PRIORITY_FILTERS.map(f => (
+                        <option key={f.value} value={f.value}>{f.label}</option>
+                      ))}
+                    </select>
+                    
+                    <div className="relative ml-2">
+                      <Search className="w-4 h-4 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        placeholder="Search tasks..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-8 pr-3 py-1.5 text-[13px] bg-white border border-theme-border rounded-[8px] w-48 focus:outline-none focus:border-theme-primary transition-colors"
+                      />
+                    </div>
                   </div>
                 )}
               </div>
@@ -404,27 +456,17 @@ export default function ProjectDetail() {
                 <LoadingSpinner size="md" />
               </div>
             ) : tasks.length === 0 && viewMode === 'list' ? (
-              <div className="bg-white border border-dashed border-theme-border-hover rounded-[24px] p-16 text-center mt-8">
-                <CheckSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-theme-text font-semibold text-[21px] tracking-tight mb-2">
-                  {statusFilter ? `No ${statusFilter.toLowerCase().replace('_', ' ')} tasks` : 'No tasks yet'}
-                </h3>
-                <p className="text-theme-text-secondary text-[17px] mb-6 tracking-[-0.374px]">
-                  {statusFilter ? 'Try a different filter or create a new task.' : 'Add your first task to get started.'}
-                </p>
-                {!statusFilter && (
-                  <button
-                    onClick={() => { setEditingTask(null); setTaskModalOpen(true); }}
-                    className="btn-primary inline-flex"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Create Task
-                  </button>
-                )}
-              </div>
+              <EmptyState 
+                icon={CheckSquare}
+                iconClass="bg-gray-50 text-gray-400"
+                title={statusFilter ? `No ${statusFilter.toLowerCase().replace('_', ' ')} tasks` : 'No tasks yet'}
+                description={statusFilter ? 'Try a different filter or create a new task.' : 'Add your first task to get started.'}
+                actionLabel={!statusFilter ? "Create Task" : undefined}
+                onAction={!statusFilter ? () => { setEditingTask(null); setTaskModalOpen(true); } : undefined}
+              />
             ) : viewMode === 'list' ? (
               <div className="grid gap-4">
-                {tasks.map((task) => (
+                {filteredTasks.map((task) => (
                   <TaskCard
                     key={task.id}
                     task={task}
@@ -437,7 +479,7 @@ export default function ProjectDetail() {
               </div>
             ) : (
               <KanbanBoard 
-                tasks={tasks}
+                tasks={filteredTasks}
                 isAdmin={isAdmin}
                 onEdit={handleEditTask}
                 onDelete={handleDeleteTask}
@@ -463,6 +505,18 @@ export default function ProjectDetail() {
               setProject((prev) => ({ ...prev, members: updatedMembers }))
             }
           />
+        </motion.div>
+      )}
+
+      {/* Activity Tab */}
+      {activeTab === 'activity' && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="bg-white border border-theme-border rounded-[24px] p-8 shadow-product"
+        >
+          <h3 className="text-[21px] font-semibold text-theme-text mb-6 tracking-[-0.374px]">Project Activity</h3>
+          <ActivityFeed projectId={id} />
         </motion.div>
       )}
 

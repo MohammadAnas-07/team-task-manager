@@ -9,6 +9,9 @@ const taskRoutes = require('./routes/task.routes');
 const dashboardRoutes = require('./routes/user.routes');
 const aiRoutes = require('./routes/ai.routes');
 const analyticsRoutes = require('./routes/analytics.routes');
+const notificationRoutes = require('./routes/notification.routes');
+const activityRoutes = require('./routes/activity.routes');
+const searchRoutes = require('./routes/search.routes');
 
 const app = express();
 
@@ -32,10 +35,13 @@ app.use(cookieParser());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/projects/:id/activity', activityRoutes);
 app.use('/api/projects/:projectId/tasks', taskRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/search', searchRoutes);
 
 // Health check route
 app.get('/', (req, res) => {

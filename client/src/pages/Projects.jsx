@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FolderOpen, Plus, Users, CheckSquare, AlertCircle, ChevronRight, Layers } from 'lucide-react';
 import api from '../api/axios';
 import LoadingSpinner from '../components/LoadingSpinner';
+import EmptyState from '../components/EmptyState';
 import { motion } from 'framer-motion';
 
 export default function Projects() {
@@ -62,22 +63,13 @@ export default function Projects() {
 
       {/* Projects grid */}
       {projects.length === 0 ? (
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-white border border-dashed border-theme-border-hover rounded-[24px] p-16 text-center mt-12"
-        >
-          <Layers className="w-16 h-16 text-gray-400 mx-auto mb-6" />
-          <h3 className="text-theme-text font-semibold text-[28px] tracking-tight mb-3">No projects yet</h3>
-          <p className="text-[17px] text-theme-text-secondary mb-8 tracking-[-0.374px] max-w-md mx-auto">
-            Create your first project to start organizing tasks and collaborating with your team.
-          </p>
-          <Link to="/projects/new" className="btn-primary inline-flex">
-            <Plus className="w-5 h-5" />
-            Create Project
-          </Link>
-        </motion.div>
+        <EmptyState
+          icon={Layers}
+          title="No projects yet"
+          description="Create your first project to start organizing tasks and collaborating with your team."
+          actionLabel="Create Project"
+          onAction={() => window.location.href = '/projects/new'}
+        />
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (

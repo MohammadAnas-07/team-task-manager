@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import NotificationDropdown from './NotificationDropdown';
+import ProfileDropdown from './ProfileDropdown';
 
 const routeTitles = {
   '/': 'Dashboard',
@@ -15,7 +16,6 @@ function getTitle(pathname) {
 
 export default function Navbar() {
   const location = useLocation();
-  const { user } = useAuth();
   const title = getTitle(location.pathname);
 
   return (
@@ -29,13 +29,10 @@ export default function Navbar() {
       </div>
 
       {/* Right side */}
-      <div className="flex items-center gap-3">
-        <div className="hidden sm:flex items-center gap-2 text-[14px] text-theme-text-secondary">
-          <div className="w-7 h-7 rounded-full bg-theme-secondary flex items-center justify-center text-[12px] font-semibold text-theme-text border border-theme-border-hover">
-            {user?.name?.charAt(0).toUpperCase()}
-          </div>
-          <span className="font-normal text-theme-text">{user?.name}</span>
-        </div>
+      <div className="flex items-center gap-2">
+        <NotificationDropdown />
+        <div className="w-px h-6 bg-theme-border mx-1 hidden sm:block" />
+        <ProfileDropdown />
       </div>
     </header>
   );

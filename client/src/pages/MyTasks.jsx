@@ -11,6 +11,7 @@ import TaskCard from '../components/TaskCard';
 import TaskModal from '../components/TaskModal';
 import LoadingSpinner from '../components/LoadingSpinner';
 import KanbanBoard from '../components/KanbanBoard';
+import EmptyState from '../components/EmptyState';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { DragDropContext } from '@hello-pangea/dnd';
@@ -193,15 +194,12 @@ export default function MyTasks() {
 
           {/* Task list / board */}
           {tasks.length === 0 && viewMode === 'list' ? (
-            <div className="bg-white border border-dashed border-theme-border-hover rounded-[24px] p-16 text-center mt-8">
-              <CheckSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-theme-text font-semibold text-[21px] tracking-tight mb-2">
-                {statusFilter ? `No ${statusFilter.toLowerCase().replace('_', ' ')} tasks` : 'No tasks yet'}
-              </h3>
-              <p className="text-theme-text-secondary text-[17px] tracking-[-0.374px]">
-                {statusFilter ? 'Try a different filter.' : "You don't have any assigned tasks."}
-              </p>
-            </div>
+            <EmptyState
+              icon={CheckSquare}
+              iconClass="bg-gray-50 text-gray-400"
+              title={statusFilter ? `No ${statusFilter.toLowerCase().replace('_', ' ')} tasks` : 'No tasks yet'}
+              description={statusFilter ? 'Try a different filter.' : "You don't have any assigned tasks."}
+            />
           ) : viewMode === 'list' ? (
             <div className="grid gap-4">
               {tasks.map((task) => (

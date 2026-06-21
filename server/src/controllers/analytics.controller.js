@@ -18,7 +18,9 @@ const getAnalyticsInsights = async (req, res) => {
         ]
       },
       include: {
-        tasks: true
+        tasks: {
+          include: { assignee: { select: { id: true, name: true } } }
+        }
       }
     });
 
@@ -39,15 +41,42 @@ const getAnalyticsInsights = async (req, res) => {
     const activeProjects = projects.length;
 
     let statusDist = { TODO: 0, IN_PROGRESS: 0, DONE: 0 };
+    const memberStats = {};
+
     projects.forEach(p => {
       p.tasks.forEach(t => {
         statusDist[t.status]++;
+        
+        if (t.assignee) {
+          if (!memberStats[t.assignee.id]) {
+            memberStats[t.assignee.id] = { name: t.assignee.name, completed: 0, active: 0 };
+          }
+          if (t.status === 'DONE') {
+            memberStats[t.assignee.id].completed++;
+          } else {
+            memberStats[t.assignee.id].active++;
+          }
+        }
       });
+    });
+
+    // Find most productive member
+    let mostProductiveMember = null;
+    let maxCompleted = -1;
+    const teamWorkload = [];
+
+    Object.values(memberStats).forEach(stat => {
+      teamWorkload.push({ name: stat.name, active: stat.active, completed: stat.completed });
+      if (stat.completed > maxCompleted) {
+        maxCompleted = stat.completed;
+        mostProductiveMember = stat.name;
+      }
     });
 
     // Format data for AI
     const prompt = `
-You are an expert AI Productivity Analyst. Based on the following project data for a user, provide a Project Health Score (0-100), 3-4 insightful sentences about their productivity, and 2-3 recommendations.
+You are an expert AI Productivity Analyst. Based on the following project data for a user, calculate a dynamic Project Health Score (integer between 0 and 100), provide 3-4 insightful sentences about their productivity, and give 2-3 actionable recommendations. 
+If they have zero tasks or projects, their health score should reflect an uninitialized state (e.g., 0) rather than a high score.
 
 Data:
 - Total Tasks: ${totalTasks}
@@ -56,10 +85,11 @@ Data:
 - Completion Rate: ${completionRate}%
 - Active Projects: ${activeProjects}
 - Tasks by Status: TODO (${statusDist.TODO}), IN_PROGRESS (${statusDist.IN_PROGRESS}), DONE (${statusDist.DONE})
+- Most Productive Team Member: ${mostProductiveMember || 'N/A'} (${maxCompleted > -1 ? maxCompleted : 0} completed)
 
-Output strictly as JSON matching this schema:
+Output strictly as JSON matching this exact schema:
 {
-  "healthScore": 87,
+  "healthScore": <integer>,
   "insights": ["insight 1", "insight 2"],
   "recommendations": ["rec 1", "rec 2"]
 }
@@ -111,7 +141,9 @@ Output strictly as JSON matching this schema:
           { name: 'To Do', value: statusDist.TODO },
           { name: 'In Progress', value: statusDist.IN_PROGRESS },
           { name: 'Done', value: statusDist.DONE }
-        ]
+        ],
+        teamWorkload,
+        mostProductiveMember
       },
       ai: aiData
     });

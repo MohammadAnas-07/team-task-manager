@@ -28,7 +28,10 @@ model User {
   id        String   @id @default(cuid())
   name      String
   email     String   @unique
-  password  String
+  password  String?
+  provider  String   @default("email")
+  providerId String?
+  avatarUrl String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -37,6 +40,8 @@ model User {
   memberships    ProjectMember[]
   assignedTasks  Task[]          @relation("TaskAssignee")
   createdTasks   Task[]          @relation("TaskCreator")
+  notifications  Notification[]  @relation("UserNotifications")
+  activities     Activity[]      @relation("UserActivities")
 }
 
 model Project {
@@ -53,6 +58,7 @@ model Project {
   // Relations
   members ProjectMember[]
   tasks   Task[]
+  activities Activity[] @relation("ProjectActivities")
 }
 
 model ProjectMember {
@@ -86,4 +92,46 @@ model Task {
 
   creatorId  String
   creator    User    @relation("TaskCreator", fields: [creatorId], references: [id])
+}
+
+enum NotificationType {
+  TASK_ASSIGNED
+  TASK_UPDATED
+  PROJECT_INVITATION
+  DEADLINE
+  GENERAL
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  title     String
+  message   String
+  type      NotificationType @default(GENERAL)
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  userId    String
+  user      User             @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum ActivityType {
+  PROJECT_CREATED
+  MEMBER_ADDED
+  MEMBER_REMOVED
+  TASK_CREATED
+  TASK_UPDATED
+  TASK_COMPLETED
+}
+
+model Activity {
+  id        String       @id @default(cuid())
+  action    ActivityType
+  details   String?      // Can store JSON or string info
+  createdAt DateTime     @default(now())
+
+  projectId String
+  project   Project      @relation("ProjectActivities", fields: [projectId], references: [id], onDelete: Cascade)
+
+  userId    String?
+  user      User?        @relation("UserActivities", fields: [userId], references: [id], onDelete: SetNull)
 }
