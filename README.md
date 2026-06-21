@@ -21,19 +21,21 @@ A production-ready full-stack team collaboration and task management web applica
 **Backend:**
 - Node.js + Express.js
 - PostgreSQL + Prisma ORM
-- JWT (httpOnly cookies)
+- JWT (httpOnly cookies) & OAuth 2.0 (Google, GitHub)
+- Google Gemini API (`@google/genai`)
 - bcryptjs, express-validator
 
 ---
 
 ## Features
 
-- **Authentication** — Signup/Login with JWT stored in httpOnly cookies. Session persists across page refreshes.
-- **Projects** — Create, update, delete projects. Each project has an owner (ADMIN) and members.
+- **Authentication** — Email/Password and Social Logins (Google & GitHub) with JWT stored in httpOnly cookies.
+- **User Profiles** — Account settings modal to update profile details and view membership statistics.
+- **Projects & Tasks** — Create, update, delete projects and tasks with full CRUD, assignments, priorities, and due dates.
 - **Member Management** — Admins can add/remove team members by email with ADMIN or MEMBER roles.
-- **Tasks** — Full CRUD with title, description, priority (LOW/MEDIUM/HIGH), status (TODO/IN_PROGRESS/DONE), assignee, and due date.
 - **Role-Based Access** — Admins can manage everything; members can update their assigned task status.
-- **Dashboard** — Personalized stats: total tasks, to do, in progress, done, overdue tasks, and recent activity.
+- **Productivity Analytics** — Real-time AI-powered dashboard powered by Google Gemini to analyze team workload, task completion rates, and project health scores.
+- **AI Meeting Assistant** — Advanced meeting summaries and task extractions using Gemini.
 - **Responsive Design** — Collapsible sidebar, mobile-friendly layouts.
 - **Toast Notifications** — Instant feedback on all actions.
 
@@ -78,8 +80,18 @@ Edit `.env` and fill in:
 DATABASE_URL=postgresql://user:password@localhost:5432/taskmanager
 JWT_SECRET=your-random-64-char-secret
 CLIENT_URL=http://localhost:5173
+SERVER_URL=http://localhost:5000
 NODE_ENV=development
 PORT=5000
+
+# OAuth Credentials
+GOOGLE_CLIENT_ID=your_google_id
+GOOGLE_CLIENT_SECRET=your_google_secret
+GITHUB_CLIENT_ID=your_github_id
+GITHUB_CLIENT_SECRET=your_github_secret
+
+# AI Features
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
 ### 4. Set up database
@@ -121,6 +133,9 @@ Visit **http://localhost:5173**
 | POST | `/api/auth/login` | Login, set cookie | No |
 | POST | `/api/auth/logout` | Clear cookie | No |
 | GET | `/api/auth/me` | Get current user | Cookie |
+| PUT | `/api/auth/profile` | Update user profile | Cookie |
+| GET | `/api/auth/google` | Initiate Google OAuth | No |
+| GET | `/api/auth/github` | Initiate GitHub OAuth | No |
 | GET | `/api/projects` | List user's projects | ✅ |
 | POST | `/api/projects` | Create project | ✅ |
 | GET | `/api/projects/:id` | Get project + members | ✅ Member |
@@ -133,6 +148,7 @@ Visit **http://localhost:5173**
 | PUT | `/api/projects/:projectId/tasks/:taskId` | Update task | ✅ Member/Admin |
 | DELETE | `/api/projects/:projectId/tasks/:taskId` | Delete task | ✅ Admin |
 | GET | `/api/dashboard` | Get user dashboard stats | ✅ |
+| GET | `/api/analytics/insights` | Get AI productivity metrics | ✅ |
 
 ---
 
