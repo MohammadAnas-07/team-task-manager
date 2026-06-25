@@ -30,7 +30,7 @@ A production-ready full-stack team collaboration and task management web applica
 ## Features
 
 - **Authentication** — Email/Password and Social Logins (Google & GitHub) with JWT stored in httpOnly cookies.
-- **User Profiles** — Account settings modal to update profile details and view membership statistics.
+- **User Profiles & Subscriptions** — Account settings modal to update profile details, and tiered subscription plans (Starter, Pro, Enterprise) to scale with growing teams.
 - **Projects & Tasks** — Create, update, delete projects and tasks with full CRUD, assignments, priorities, and due dates.
 - **Member Management** — Admins can add/remove team members by email with ADMIN or MEMBER roles.
 - **Role-Based Access** — Admins can manage everything; members can update their assigned task status.
@@ -43,9 +43,13 @@ A production-ready full-stack team collaboration and task management web applica
 
 ## Screenshots
 
-| Dashboard | Create Project | Task Modal |
-|-----------|---------------|------------|
-| ![Dashboard](./screenshots/dashboards.png) | ![Create Project](./screenshots/create_projects.png) | ![Task Modal](./screenshots/task_modal.png) |
+| Dashboard | Productivity Analytics | AI Meeting Assistant |
+|-----------|------------------------|----------------------|
+| ![Dashboard](./screenshots/dashboard.png) | ![Productivity Analytics](./screenshots/analytics.png) | ![AI Meeting Assistant](./screenshots/ai_meeting.png) |
+
+| Create Project | Pricing Plans |
+|----------------|---------------|
+| ![Create Project](./screenshots/create_project.png) | ![Pricing Plans](./screenshots/pricing.png) |
 
 ---
 
