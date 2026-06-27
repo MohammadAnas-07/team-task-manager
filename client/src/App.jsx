@@ -14,6 +14,7 @@ import MyTasks from './pages/MyTasks';
 import AiMeetingAssistant from './pages/AiMeetingAssistant';
 import Analytics from './pages/Analytics';
 import Subscription from './pages/Subscription';
+import Landing from './pages/Landing';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,9 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
+    element: <Landing />,
+  },
+  {
     element: (
       <ProtectedRoute>
         <AppLayout />
@@ -33,35 +37,35 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true,
+        path: '/dashboard',
         element: <Dashboard />,
       },
       {
-        path: 'my-tasks',
+        path: '/my-tasks',
         element: <MyTasks />,
       },
       {
-        path: 'projects',
+        path: '/projects',
         element: <Projects />,
       },
       {
-        path: 'projects/new',
+        path: '/projects/new',
         element: <CreateProject />,
       },
       {
-        path: 'projects/:id',
+        path: '/projects/:id',
         element: <ProjectDetail />,
       },
       {
-        path: 'ai-meeting-assistant',
+        path: '/ai-meeting-assistant',
         element: <AiMeetingAssistant />,
       },
       {
-        path: 'analytics',
+        path: '/analytics',
         element: <Analytics />,
       },
       {
-        path: 'subscription',
+        path: '/subscription',
         element: <Subscription />,
       },
     ],

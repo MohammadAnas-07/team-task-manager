@@ -3,7 +3,7 @@ import NotificationDropdown from './NotificationDropdown';
 import ProfileDropdown from './ProfileDropdown';
 
 const routeTitles = {
-  '/': 'Dashboard',
+  '/dashboard': 'Dashboard',
   '/projects': 'Projects',
   '/projects/new': 'New Project',
 };

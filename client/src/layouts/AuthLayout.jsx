@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Layers } from 'lucide-react';
+import LogoIcon from '../components/LogoIcon';
 
 export default function AuthLayout() {
   return (
@@ -11,9 +11,7 @@ export default function AuthLayout() {
         <div className="absolute inset-0 bg-gradient-to-br from-theme-primary/10 to-transparent pointer-events-none" />
         
         <div className="relative z-10 flex items-center gap-3">
-          <div className="w-10 h-10 bg-theme-primary rounded-[11px] flex items-center justify-center shadow-product">
-            <Layers className="w-5 h-5 text-white" />
-          </div>
+          <LogoIcon className="w-10 h-10 text-theme-primary" />
           <span className="text-[21px] font-semibold tracking-tight">Task Flow</span>
         </div>
         
@@ -40,9 +38,7 @@ export default function AuthLayout() {
       {/* Right side - Form */}
       <div className="flex-1 flex flex-col justify-center items-center p-6 lg:p-12 relative">
         <div className="absolute top-6 left-6 lg:hidden flex items-center gap-2">
-          <div className="w-8 h-8 bg-theme-primary rounded-[8px] flex items-center justify-center">
-            <Layers className="w-4 h-4 text-white" />
-          </div>
+          <LogoIcon className="w-8 h-8 text-theme-primary" />
           <span className="text-[17px] font-semibold tracking-tight">Task Flow</span>
         </div>
         

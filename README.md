@@ -30,6 +30,9 @@ A production-ready full-stack team collaboration and task management web applica
 ## Features
 
 - **Authentication** — Email/Password and Social Logins (Google & GitHub) with JWT stored in httpOnly cookies.
+- **Premium Landing Page** — Beautifully crafted, high-converting landing page showcasing the product.
+- **Minimalist, UI** — Elegant, uncluttered design prioritizing focus and ease of use, inspired by Raycast and Linear.
+- **Micro-Animations** — Smooth transitions and 3D hover effects powered by Framer Motion.
 - **User Profiles & Subscriptions** — Account settings modal to update profile details, and tiered subscription plans (Starter, Pro, Enterprise) to scale with growing teams.
 - **Projects & Tasks** — Create, update, delete projects and tasks with full CRUD, assignments, priorities, and due dates.
 - **Member Management** — Admins can add/remove team members by email with ADMIN or MEMBER roles.

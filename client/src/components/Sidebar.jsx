@@ -13,13 +13,13 @@ import {
   ChevronRight,
   Menu,
   X,
-  Layers,
   Sparkles,
   TrendingUp
 } from 'lucide-react';
+import LogoIcon from './LogoIcon';
 
 const navItems = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { to: '/my-tasks', label: 'My Tasks', icon: CheckSquare },
   { to: '/projects', label: 'Projects', icon: FolderKanban },
   { to: '/projects/new', label: 'New Project', icon: PlusCircle },
@@ -52,14 +52,18 @@ export default function Sidebar() {
   const SidebarContent = () => (
     <div className="flex flex-col h-full bg-white">
       {/* Logo */}
-      <div className={`flex items-center gap-3 px-4 py-5 ${collapsed ? 'justify-center' : ''}`}>
-        <div className="flex-shrink-0 w-8 h-8 bg-theme-primary rounded-[8px] flex items-center justify-center shadow-product">
-          <Layers className="w-4 h-4 text-white" />
-        </div>
-        {!collapsed && (
-          <span className="font-semibold text-theme-text text-[17px] leading-tight tracking-tight">
-            Task Flow
-          </span>
+      <div className={`flex items-center px-4 py-5 ${collapsed ? 'justify-center' : 'pl-5'}`}>
+        {!collapsed ? (
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200" className="h-8 w-auto">
+            <rect x="40" y="40" width="90" height="90" rx="24" fill="none" stroke="#1c1c1e" strokeWidth="8" />
+            <rect x="75" y="75" width="90" height="90" rx="24" fill="none" stroke="#1c1c1e" strokeWidth="8" />
+            <text x="210" y="125" fontFamily="-apple-system, BlinkMacSystemFont, 'San Francisco', 'Helvetica Neue', sans-serif" fontSize="52" fontWeight="300" fill="#1c1c1e" letterSpacing="14">TASKFLOW</text>
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className="w-8 h-8">
+            <rect x="40" y="40" width="90" height="90" rx="24" fill="none" stroke="#1c1c1e" strokeWidth="8" />
+            <rect x="75" y="75" width="90" height="90" rx="24" fill="none" stroke="#1c1c1e" strokeWidth="8" />
+          </svg>
         )}
       </div>
 
