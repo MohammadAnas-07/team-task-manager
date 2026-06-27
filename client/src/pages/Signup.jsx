@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import toast from 'react-hot-toast';
-import { Mail, Lock, User, Eye, EyeOff, Layers, Github } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, Github } from 'lucide-react';
+import LogoIcon from '../components/LogoIcon';
 import { motion } from 'framer-motion';
 import { baseURL } from '../api/axios';
 
@@ -25,7 +26,7 @@ export default function Signup() {
     try {
       await signup(name, email, password);
       toast.success('Account created! Welcome aboard!');
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       const message = err.response?.data?.error || 'Signup failed. Please try again.';
       toast.error(message);
@@ -47,8 +48,8 @@ export default function Signup() {
       >
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-theme-primary rounded-[14px] mb-6 shadow-product">
-            <Layers className="w-8 h-8 text-white" />
+          <div className="flex justify-center mb-6">
+            <LogoIcon className="w-16 h-16 text-theme-primary" />
           </div>
           <h1 className="text-[28px] font-semibold text-theme-text tracking-tight leading-tight">Create an account</h1>
           <p className="text-[17px] text-theme-text-secondary mt-2 tracking-[-0.374px]">Join your team today</p>

@@ -277,7 +277,7 @@ const handleOAuthLogin = async (res, email, name, avatarUrl, provider, providerI
   res.cookie('token', token, cookieOptions);
 
   // Redirect to dashboard with success query param
-  res.redirect(`${process.env.CLIENT_URL}/?login_success=${provider}`);
+  res.redirect(`${process.env.CLIENT_URL}/dashboard?login_success=${provider}`);
 };
 
 module.exports = { signup, login, logout, me, updateProfile, googleLogin, googleCallback, githubLogin, githubCallback };

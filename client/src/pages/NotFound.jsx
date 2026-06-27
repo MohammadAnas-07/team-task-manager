@@ -25,7 +25,7 @@ export default function NotFound() {
         <p className="text-[17px] text-theme-text-secondary mb-10 max-w-sm mx-auto tracking-[-0.374px] leading-relaxed">
           The page you're looking for doesn't exist or has been moved.
         </p>
-        <Link to="/" className="btn-primary inline-flex justify-center">
+        <Link to="/dashboard" className="btn-primary inline-flex justify-center">
           <Home className="w-4 h-4" />
           Back to Dashboard
         </Link>

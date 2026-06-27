@@ -23,7 +23,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       // Only redirect if not already on auth pages
-      const authPaths = ['/login', '/signup'];
+      const authPaths = ['/login', '/signup', '/'];
       if (!authPaths.includes(window.location.pathname)) {
         window.location.href = '/login';
       }
