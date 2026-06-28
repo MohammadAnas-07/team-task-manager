@@ -43,7 +43,7 @@ export default function Sidebar() {
     try {
       await logout();
       toast.success('Logged out successfully');
-      navigate('/login');
+      navigate('/');
     } catch {
       toast.error('Logout failed');
     }

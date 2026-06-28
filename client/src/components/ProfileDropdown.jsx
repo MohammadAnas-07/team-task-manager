@@ -29,7 +29,7 @@ export default function ProfileDropdown() {
     try {
       await logout();
       toast.success('Logged out successfully');
-      navigate('/login');
+      navigate('/');
     } catch {
       toast.error('Logout failed');
     }
