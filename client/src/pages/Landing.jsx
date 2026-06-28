@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   CheckSquare, Flag, Clock, Activity, RefreshCcw, Shield, 
-  ChevronRight, ArrowRight 
+  ChevronRight, ArrowRight, BrainCircuit, TrendingUp, BarChart3, Target, Sparkles
 } from 'lucide-react';
 
 export default function Landing() {
@@ -198,6 +198,169 @@ export default function Landing() {
                  <img src="/dashboard.png" alt="Dashboard Feature Preview" className="w-full h-auto block rounded-[24px]" />
                </motion.div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Productivity Analytics Showcase */}
+      <section className="py-24 md:py-32 bg-[#FFFFFF] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left Side: Text & Features */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="max-w-xl"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F5F5F7] text-[#1D1D1F] text-sm font-medium mb-8 border border-black/5">
+                <Sparkles className="w-4 h-4 text-[#0066CC]" />
+                AI Powered Analytics
+              </div>
+              <h2 className="text-4xl md:text-[56px] font-semibold tracking-tight leading-[1.1] mb-6">
+                Turn work into <br/> measurable progress.
+              </h2>
+              <p className="text-[19px] text-[#6E6E73] mb-10 leading-relaxed">
+                Track productivity, monitor project health, visualize completion trends, and receive AI-powered recommendations that help your team work smarter every day.
+              </p>
+              
+              <div className="grid gap-6 mb-12">
+                {[
+                  { icon: Target, title: 'AI Productivity Score', desc: 'Measure overall productivity using intelligent project analysis.' },
+                  { icon: Sparkles, title: 'Smart Recommendations', desc: 'Receive actionable AI suggestions based on project activity and task completion.' },
+                  { icon: Activity, title: 'Project Health Monitoring', desc: 'Quickly identify bottlenecks, overdue tasks, and project risks.' },
+                  { icon: BarChart3, title: 'Beautiful Visual Reports', desc: 'Interactive charts and real-time metrics help you understand progress at a glance.' }
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-4 group">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-[#F5F5F7] group-hover:bg-[#E8E8ED] transition-colors flex items-center justify-center">
+                      <item.icon className="w-6 h-6 text-[#1D1D1F]" />
+                    </div>
+                    <div>
+                      <h4 className="text-[17px] font-semibold tracking-tight mb-1">{item.title}</h4>
+                      <p className="text-[15px] text-[#6E6E73] leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Small Stats Row */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 pt-8 border-t border-[#F5F5F7]">
+                {[
+                  { val: '99.9%', label: 'System Reliability' },
+                  { val: 'Real-Time', label: 'Analytics' },
+                  { val: 'AI Powered', label: 'Insights' },
+                  { val: '100%', label: 'Private Data' }
+                ].map((stat, i) => (
+                  <div key={i}>
+                    <div className="text-[19px] font-semibold tracking-tight text-[#1D1D1F]">{stat.val}</div>
+                    <div className="text-[13px] font-medium text-[#6E6E73] mt-1">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <Link to="/signup" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-[17px] font-medium text-white bg-[#0066CC] hover:bg-[#005bb5] rounded-full transition-colors">
+                  Get Started
+                </Link>
+                <Link to="/login" className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-[17px] font-medium text-[#1D1D1F] bg-[#F5F5F7] hover:bg-[#E8E8ED] rounded-full transition-colors">
+                  View Dashboard
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Right Side: Dashboard Mockup */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative lg:h-[800px] flex items-center justify-center lg:justify-end"
+            >
+               <motion.div
+                 animate={{ y: [-10, 10, -10] }}
+                 transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                 className="relative w-full max-w-2xl rounded-[24px] overflow-hidden border border-[#E8E8ED] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)] bg-[#F5F5F7]"
+               >
+                 {/* Browser Header */}
+                 <div className="h-12 border-b border-[#E8E8ED] bg-[#FFFFFF] flex items-center px-4 gap-2">
+                   <div className="flex gap-2">
+                     <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                     <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                     <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+                   </div>
+                   <div className="flex-1 flex justify-center">
+                     <div className="h-6 w-48 bg-[#F5F5F7] rounded-md"></div>
+                   </div>
+                 </div>
+                 
+                 {/* Mock Analytics Content */}
+                 <div className="p-6 md:p-8 space-y-6">
+                   <div className="flex items-center gap-3 mb-8">
+                     <TrendingUp className="w-8 h-8 text-[#0066CC]" />
+                     <div>
+                       <h3 className="text-[24px] font-semibold tracking-tight leading-none">Analytics</h3>
+                       <p className="text-[13px] text-[#6E6E73] mt-1">AI-powered insights</p>
+                     </div>
+                   </div>
+
+                   {/* Mock AI Glass Panel */}
+                   <div className="relative rounded-[20px] bg-white/70 backdrop-blur-md border border-white p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
+                     <div className="absolute top-0 right-0 p-4 opacity-5">
+                       <BrainCircuit className="w-32 h-32" />
+                     </div>
+                     <div className="flex flex-col md:flex-row gap-6 relative z-10">
+                       <div className="md:w-1/3 md:border-b md:border-b-0 md:border-r border-[#E8E8ED] pb-4 md:pb-0 pr-0 md:pr-4">
+                         <p className="text-[13px] font-medium text-[#6E6E73] mb-2">Project Health</p>
+                         <div className="flex items-end gap-2">
+                           <span className="text-[48px] font-semibold leading-none tracking-tight">92</span>
+                           <span className="text-[17px] text-[#A1A1A6] mb-2">/100</span>
+                         </div>
+                         <div className="w-full h-2 bg-[#F5F5F7] rounded-full mt-4 overflow-hidden">
+                           <div className="h-full w-[92%] bg-[#27C93F] rounded-full"></div>
+                         </div>
+                       </div>
+                       <div className="md:w-2/3">
+                         <div className="flex items-center gap-2 mb-4">
+                           <Sparkles className="w-4 h-4 text-[#0066CC]" />
+                           <span className="text-[15px] font-semibold">AI Insights</span>
+                         </div>
+                         <div className="space-y-3">
+                           <div className="h-4 w-full bg-[#F5F5F7] rounded-md"></div>
+                           <div className="h-4 w-5/6 bg-[#F5F5F7] rounded-md"></div>
+                           <div className="h-4 w-4/6 bg-[#F5F5F7] rounded-md"></div>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+
+                   {/* Mock Stat Cards Grid */}
+                   <div className="grid grid-cols-2 gap-4">
+                     {[
+                       { label: 'Completed Tasks', val: '1,248' },
+                       { label: 'Overdue', val: '3' },
+                     ].map((stat, i) => (
+                       <div key={i} className="bg-white rounded-[16px] p-5 border border-[#E8E8ED] shadow-sm">
+                         <p className="text-[13px] font-medium text-[#6E6E73] mb-2">{stat.label}</p>
+                         <div className="text-[28px] font-semibold tracking-tight">{stat.val}</div>
+                       </div>
+                     ))}
+                   </div>
+                   
+                   {/* Mock Chart Area */}
+                   <div className="bg-white rounded-[16px] p-5 border border-[#E8E8ED] shadow-sm">
+                     <p className="text-[13px] font-medium text-[#6E6E73] mb-4">Completion Trend</p>
+                     <div className="flex items-end justify-between h-24 gap-2">
+                       {[40, 65, 45, 80, 55, 90, 75].map((h, i) => (
+                         <div key={i} className="w-full bg-[#0066CC] rounded-t-md opacity-20 hover:opacity-100 transition-opacity" style={{ height: `${h}%` }}></div>
+                       ))}
+                     </div>
+                   </div>
+
+                 </div>
+               </motion.div>
+            </motion.div>
+
           </div>
         </div>
       </section>

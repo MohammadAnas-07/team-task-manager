@@ -2,12 +2,32 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, 
-  LineChart, Line, CartesianGrid 
+  CartesianGrid, AreaChart, Area
 } from 'recharts';
-import { BrainCircuit, AlertCircle, TrendingUp, CheckCircle2, Clock } from 'lucide-react';
+import { 
+  AlertCircle, TrendingUp, CheckCircle2, Clock, 
+  Target, Zap, Activity, ChevronRight
+} from 'lucide-react';
 import api from '../api/axios';
 import StatsCard from '../components/StatsCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+
+const InsightCard = ({ title, text, icon: Icon, colorClass, delay = 0 }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 15 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay }}
+    className="bg-white/70 backdrop-blur-md border border-[#E8E8ED] rounded-[24px] p-6 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300 flex flex-col h-full"
+  >
+    <div className="flex items-center gap-3 mb-4">
+      <div className={`w-10 h-10 rounded-2xl flex items-center justify-center ${colorClass.bg}`}>
+        <Icon className={`w-5 h-5 ${colorClass.text}`} />
+      </div>
+      <h4 className="text-[17px] font-semibold tracking-tight text-[#1D1D1F]">{title}</h4>
+    </div>
+    <p className="text-[15px] text-[#6E6E73] leading-relaxed flex-1">{text}</p>
+  </motion.div>
+);
 
 export default function Analytics() {
   const [data, setData] = useState(null);
@@ -40,7 +60,7 @@ export default function Analytics() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
         <AlertCircle className="w-12 h-12 text-red-400" />
-        <p className="text-red-400 font-semibold text-[17px] tracking-[-0.374px]">{error}</p>
+        <p className="text-red-400 font-semibold text-[17px] tracking-tight">{error}</p>
       </div>
     );
   }
@@ -56,131 +76,150 @@ export default function Analytics() {
     { name: 'Fri', completed: Math.round(metrics.completedTasks * 0.3) },
   ];
 
+  const insightTypes = [
+    { title: "Productivity Insight", icon: Zap, colors: { bg: 'bg-[#FF9500]/10', text: 'text-[#FF9500]' } },
+    { title: "Performance Trend", icon: Activity, colors: { bg: 'bg-[#0066CC]/10', text: 'text-[#0066CC]' } },
+    { title: "System Observation", icon: Target, colors: { bg: 'bg-[#34C759]/10', text: 'text-[#34C759]' } },
+  ];
+
+  const recTypes = [
+    { title: "Focus Recommendation", icon: Target, colors: { bg: 'bg-[#AF52DE]/10', text: 'text-[#AF52DE]' } },
+    { title: "Next Steps", icon: ChevronRight, colors: { bg: 'bg-[#0066CC]/10', text: 'text-[#0066CC]' } },
+    { title: "Efficiency Tip", icon: Zap, colors: { bg: 'bg-[#FF9500]/10', text: 'text-[#FF9500]' } },
+  ];
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-[1068px] mx-auto space-y-8 pb-12"
+      transition={{ duration: 0.5 }}
+      className="max-w-[1200px] mx-auto space-y-16 pb-20 px-4 sm:px-6 lg:px-8"
     >
-      <div className="mb-8 mt-4">
-        <h1 className="text-[40px] font-semibold text-theme-text leading-tight tracking-tight flex items-center gap-3">
-          <TrendingUp className="w-8 h-8 text-theme-primary" />
-          Productivity Analytics
+      {/* Header */}
+      <div className="pt-8">
+        <h1 className="text-[44px] md:text-[56px] font-semibold text-[#1D1D1F] leading-tight tracking-tight mb-4 flex items-center gap-4">
+          <TrendingUp className="w-10 h-10 md:w-12 md:h-12 text-[#0066CC]" />
+          Analytics
         </h1>
-        <p className="text-[21px] text-theme-text-secondary mt-2 tracking-[0.231px]">
-          AI-powered insights and project health metrics.
+        <p className="text-[19px] md:text-[21px] text-[#6E6E73] tracking-wide max-w-2xl">
+          Turn your work into measurable progress. Monitor project health, visualize trends, and receive smart recommendations.
         </p>
       </div>
 
-      {/* AI Insights Section */}
-      <div className="bg-theme-primary text-white rounded-[24px] p-8 shadow-product relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-8 opacity-10">
-          <BrainCircuit className="w-48 h-48" />
+      {/* Key Statistics */}
+      <section>
+        <h2 className="text-[24px] font-semibold text-[#1D1D1F] tracking-tight mb-6">Key Statistics</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatsCard title="Total Tasks" value={metrics.totalTasks} icon={CheckCircle2} color="blue" />
+          <StatsCard title="Completed" value={metrics.completedTasks} icon={CheckCircle2} color="green" />
+          <StatsCard title="Overdue" value={metrics.overdueTasks} icon={Clock} color="red" />
+          <StatsCard title="Completion Rate" value={`${metrics.completionRate}%`} icon={TrendingUp} color="purple" />
         </div>
-        
-        <div className="relative z-10 grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-white/20 pb-6 lg:pb-0 pr-0 lg:pr-6">
-            <h3 className="text-[17px] font-medium text-white/80 mb-2">Project Health Score</h3>
-            <div className="flex items-end gap-3">
-              <span className="text-[64px] font-semibold leading-none">{ai.healthScore}</span>
-              <span className="text-[24px] text-white/60 mb-2">/100</span>
+      </section>
+
+      {/* AI Insight Cards */}
+      <section>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-[24px] font-semibold text-[#1D1D1F] tracking-tight">AI Insights</h2>
+          <div className="flex items-center gap-2 bg-[#F5F5F7] px-4 py-2 rounded-full border border-[#E8E8ED]">
+            <div className={`w-2.5 h-2.5 rounded-full ${ai.healthScore > 80 ? 'bg-[#34C759]' : ai.healthScore > 50 ? 'bg-[#FF9500]' : 'bg-[#FF3B30]'}`}></div>
+            <span className="text-[15px] font-medium text-[#1D1D1F]">Health: {ai.healthScore}/100</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {ai.insights.map((insight, idx) => {
+            const type = insightTypes[idx % insightTypes.length];
+            return (
+              <InsightCard 
+                key={`insight-${idx}`}
+                title={type.title}
+                text={insight}
+                icon={type.icon}
+                colorClass={type.colors}
+                delay={idx * 0.1}
+              />
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Large Analytics Charts */}
+      <section>
+        <h2 className="text-[24px] font-semibold text-[#1D1D1F] tracking-tight mb-6">Performance Trends</h2>
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Weekly Trend Chart */}
+          <div className="bg-[#FFFFFF] border border-[#E8E8ED] rounded-[32px] p-8 md:p-10 shadow-sm">
+            <div className="mb-8">
+              <h3 className="text-[21px] font-semibold text-[#1D1D1F] tracking-tight">Weekly Completion</h3>
+              <p className="text-[15px] text-[#6E6E73] mt-1">Tasks completed over the last 5 days.</p>
             </div>
-            <div className="mt-4 flex items-center gap-2">
-              <div className="flex-1 h-2 bg-white/20 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-green-400 rounded-full transition-all duration-1000"
-                  style={{ width: `${Math.max(0, Math.min(100, ai.healthScore))}%` }}
-                />
-              </div>
+            <div className="h-[350px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={weeklyTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#0066CC" stopOpacity={0.2}/>
+                      <stop offset="95%" stopColor="#0066CC" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 13 }} dy={10} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 13 }} />
+                  <RechartsTooltip 
+                    contentStyle={{ borderRadius: '16px', border: '1px solid #E5E7EB', boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)', padding: '12px 16px' }}
+                    itemStyle={{ color: '#1D1D1F', fontWeight: 600 }}
+                  />
+                  <Area type="monotone" dataKey="completed" stroke="#0066CC" strokeWidth={3} fillOpacity={1} fill="url(#colorCompleted)" />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </div>
-          
-          <div className="lg:col-span-2 flex flex-col justify-center">
-            <h3 className="text-[17px] font-medium text-white/80 mb-4 flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-yellow-400" />
-              AI Insights
-            </h3>
-            <ul className="space-y-3">
-              {ai.insights.map((insight, idx) => (
-                <li key={idx} className="text-[16px] leading-relaxed flex items-start gap-3">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-white/60 flex-shrink-0" />
-                  {insight}
-                </li>
-              ))}
-            </ul>
+
+          {/* Task Status Distribution */}
+          <div className="bg-[#FFFFFF] border border-[#E8E8ED] rounded-[32px] p-8 md:p-10 shadow-sm">
+            <div className="mb-8">
+              <h3 className="text-[21px] font-semibold text-[#1D1D1F] tracking-tight">Task Distribution</h3>
+              <p className="text-[15px] text-[#6E6E73] mt-1">Current status of all active tasks.</p>
+            </div>
+            <div className="h-[350px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={metrics.statusDistribution} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 13 }} dy={10} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 13 }} />
+                  <RechartsTooltip 
+                    cursor={{ fill: '#F5F5F7' }}
+                    contentStyle={{ borderRadius: '16px', border: '1px solid #E5E7EB', boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)', padding: '12px 16px' }}
+                    itemStyle={{ color: '#1D1D1F', fontWeight: 600 }}
+                  />
+                  <Bar dataKey="value" fill="#1D1D1F" radius={[8, 8, 0, 0]} maxBarSize={60} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Stats grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <StatsCard
-          title="Total Tasks"
-          value={metrics.totalTasks}
-          icon={CheckCircle2}
-          color="blue"
-        />
-        <StatsCard
-          title="Completed"
-          value={metrics.completedTasks}
-          icon={CheckCircle2}
-          color="green"
-        />
-        <StatsCard
-          title="Overdue"
-          value={metrics.overdueTasks}
-          icon={Clock}
-          color="red"
-        />
-        <StatsCard
-          title="Completion Rate"
-          value={`${metrics.completionRate}%`}
-          icon={TrendingUp}
-          color="purple"
-        />
-      </div>
-
-      <div className="grid lg:grid-cols-2 gap-6 pt-4">
-        {/* Recommendations */}
-        <div className="bg-white border border-theme-border rounded-[24px] p-8 shadow-sm">
-          <h3 className="text-[21px] font-semibold text-theme-text tracking-[-0.374px] mb-6">AI Recommendations</h3>
-          <div className="space-y-4">
-            {ai.recommendations.map((rec, idx) => (
-              <div key={idx} className="flex gap-4 p-4 bg-theme-secondary rounded-[14px]">
-                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
-                  <span className="font-semibold">{idx + 1}</span>
-                </div>
-                <p className="text-[15px] text-theme-text pt-1">{rec}</p>
-              </div>
-            ))}
-          </div>
+      {/* Recommendations */}
+      <section>
+        <h2 className="text-[24px] font-semibold text-[#1D1D1F] tracking-tight mb-6">Recommendations</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {ai.recommendations.map((rec, idx) => {
+            const type = recTypes[idx % recTypes.length];
+            return (
+              <InsightCard 
+                key={`rec-${idx}`}
+                title={type.title}
+                text={rec}
+                icon={type.icon}
+                colorClass={type.colors}
+                delay={idx * 0.1}
+              />
+            );
+          })}
         </div>
+      </section>
 
-        {/* Status Distribution Chart */}
-        <div className="bg-white border border-theme-border rounded-[24px] p-8 shadow-sm">
-          <h3 className="text-[21px] font-semibold text-theme-text tracking-[-0.374px] mb-6">Task Status Distribution</h3>
-          <div className="h-[250px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={metrics.statusDistribution} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 13 }} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 13 }} />
-                <RechartsTooltip 
-                  cursor={{ fill: '#F8F9FA' }}
-                  contentStyle={{ borderRadius: '12px', border: '1px solid #E5E7EB', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
-                />
-                <Bar dataKey="value" fill="#111111" radius={[6, 6, 0, 0]} maxBarSize={50} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
     </motion.div>
   );
 }
-
-const Sparkles = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
-  </svg>
-);
