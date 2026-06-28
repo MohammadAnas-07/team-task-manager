@@ -3,24 +3,24 @@ import { motion } from 'framer-motion';
 export default function StatsCard({ title, value, icon: Icon, color = 'blue', subtitle }) {
   const colorMap = {
     blue: {
-      bg: 'bg-gray-100',
-      icon: 'text-theme-primary',
+      bg: 'bg-[#0066CC]/10',
+      icon: 'text-[#0066CC]',
     },
     green: {
-      bg: 'bg-green-500/10',
-      icon: 'text-green-400',
+      bg: 'bg-[#34C759]/10',
+      icon: 'text-[#34C759]',
     },
     amber: {
-      bg: 'bg-amber-500/10',
-      icon: 'text-amber-400',
+      bg: 'bg-[#FF9500]/10',
+      icon: 'text-[#FF9500]',
     },
     red: {
-      bg: 'bg-red-500/10',
-      icon: 'text-red-400',
+      bg: 'bg-[#FF3B30]/10',
+      icon: 'text-[#FF3B30]',
     },
     purple: {
-      bg: 'bg-purple-500/10',
-      icon: 'text-purple-400',
+      bg: 'bg-[#AF52DE]/10',
+      icon: 'text-[#AF52DE]',
     },
   };
 
@@ -29,15 +29,16 @@ export default function StatsCard({ title, value, icon: Icon, color = 'blue', su
   return (
     <motion.div 
       whileHover={{ y: -2 }}
-      className="bg-white border border-theme-border rounded-[18px] p-6 hover:border-theme-border-hover transition-colors duration-300"
+      transition={{ duration: 0.2 }}
+      className="bg-[#FFFFFF] border border-[#E8E8ED] rounded-[24px] p-6 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300"
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <p className="text-[14px] text-theme-text-secondary font-semibold tracking-[-0.224px] uppercase">{title}</p>
-          <p className="text-[40px] font-semibold text-theme-text tracking-tight leading-none mt-2 mb-1">{value}</p>
-          {subtitle && <p className="text-[14px] text-theme-text-secondary tracking-[-0.224px]">{subtitle}</p>}
+          <p className="text-[14px] text-[#6E6E73] font-medium">{title}</p>
+          <p className="text-[44px] font-semibold text-[#1D1D1F] tracking-tight leading-none mt-2 mb-1">{value}</p>
+          {subtitle && <p className="text-[14px] text-[#6E6E73]">{subtitle}</p>}
         </div>
-        <div className={`w-12 h-12 rounded-[11px] flex items-center justify-center flex-shrink-0 ${colors.bg}`}>
+        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 ${colors.bg}`}>
           <Icon className={`w-6 h-6 ${colors.icon}`} />
         </div>
       </div>
