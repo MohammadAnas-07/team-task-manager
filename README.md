@@ -56,6 +56,100 @@ A production-ready full-stack team collaboration and task management web applica
 
 ---
 
+## AI RAG Workflow
+
+While traditionally RAG involves vector databases, our current implementation utilizes a contextual retrieval generation approach. The workflow operates as follows:
+
+1. **Context Retrieval**: When a user requests AI insights (e.g., productivity analytics), the backend retrieves the relevant context (user's projects, tasks, member workloads, and completion rates) directly from the PostgreSQL database using Prisma.
+2. **Prompt Construction**: This highly structured context is injected into a specialized prompt alongside the user's specific request or the meeting notes.
+3. **Generation**: The compiled prompt is sent to the Google Gemini API (`gemini-2.5-flash`), instructing it to generate insights, health scores, or extract actionable tasks.
+4. **Structured Output**: Gemini responds with a strict JSON structure, which is then parsed by the Express controller and sent back to the React client to be rendered on the dashboard or meeting summary views.
+
+```mermaid
+flowchart TD
+    User[User] -->|Action / Input| Client[Client Interface]
+    Client -->|API Request| API[Backend API]
+    
+    subgraph RAG Pipeline
+        API -->|Context Query| DB[(PostgreSQL)]
+        DB -->|Context Data| API
+        API -->|Prompt + Context| Gemini[Google Gemini API]
+    end
+    
+    Gemini -->|JSON Response| API
+    API -->|Formatted Data| Client
+    Client -->|Rendered UI| User
+```
+
+---
+
+## Project Architecture
+
+The application follows a modern client-server architecture:
+
+- **Frontend (Client)**: A React Single Page Application (SPA) built with Vite. It manages state via Context API/Hooks and uses React Router for client-side routing. Tailwind CSS provides the styling system.
+- **Backend (Server)**: A RESTful Node.js/Express API. It handles business logic, authentication (JWT/OAuth), and AI integrations.
+- **Database Layer**: PostgreSQL serves as the primary data store, with Prisma ORM bridging the gap between the Express controllers and the database, ensuring type safety and easy schema migrations.
+- **External Services**: Integrates with Google and GitHub for OAuth, and Google Gemini for AI-powered features.
+
+```mermaid
+flowchart TD
+    subgraph Client
+        React[React SPA]
+    end
+
+    subgraph Server
+        API[Express API]
+    end
+
+    subgraph Database
+        DB[(PostgreSQL)]
+    end
+
+    subgraph External
+        OAuth[OAuth Providers]
+        Gemini[Gemini API]
+    end
+
+    React <-->|REST / JSON| API
+    API <-->|Prisma ORM| DB
+    API <-->|Auth Tokens| OAuth
+    API <-->|Prompts & Data| Gemini
+```
+
+---
+
+## Folder Structure
+
+```text
+team-task-manager/
+├── client/                 # Frontend React application
+│   ├── public/             # Static assets
+│   └── src/
+│       ├── api/            # Axios API client configurations
+│       ├── components/     # Reusable UI components
+│       ├── context/        # React context providers
+│       ├── hooks/          # Custom React hooks
+│       ├── layouts/        # Page layouts (e.g., Dashboard layout)
+│       ├── pages/          # Individual page views
+│       ├── App.jsx         # Root component
+│       └── main.jsx        # Entry point
+├── server/                 # Backend Express application
+│   ├── prisma/             # Prisma schema and migrations
+│   └── src/
+│       ├── controllers/    # Route handlers and AI logic
+│       ├── lib/            # Utility functions and DB connections
+│       ├── middleware/     # Express middlewares (auth)
+│       ├── routes/         # API route definitions
+│       ├── services/       # External service integrations
+│       ├── validators/     # Request validation schemas
+│       └── index.js        # Entry point for the server
+├── screenshots/            # Project screenshots for documentation
+└── README.md               # Project documentation
+```
+
+---
+
 ## Local Setup
 
 ### Prerequisites
